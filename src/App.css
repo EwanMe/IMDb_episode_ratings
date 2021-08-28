@@ -1,0 +1,15 @@
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+.App {
+  padding: 3em;
+}
+
+#chart .c3-line {
+}
+
+#chart .c3-arc {
+}

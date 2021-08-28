@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Data from './components/Data';
-import SearchBar from './components/SearchBar';
+import { useState } from "react";
+import "./App.css";
+import Data from "./components/Data";
+import SearchBar from "./components/SearchBar";
 
 const App = () => {
-  const [show, setShow] = useState('');
+  const [show, setShow] = useState("");
 
   return (
     <div className="App">

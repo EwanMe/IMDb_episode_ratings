@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import c3 from "c3";
 
 const Data = (props) => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  const [seasons, setSeasons] = useState([]);
+  const [seasonBtnArray, setSeasonBtnArray] = useState([]);
   const [season, setSeason] = useState(1);
 
   useEffect(() => {
@@ -17,7 +18,8 @@ const Data = (props) => {
           (result) => {
             setIsLoaded(true);
             setItems(result);
-            setSeasons(seasonArray(result.totalSeasons));
+            setSeasonBtnArray(getSeasonArray(result.totalSeasons));
+            renderChart(updateChartData(result));
           },
           (error) => {
             setIsLoaded(true);
@@ -27,12 +29,33 @@ const Data = (props) => {
     }
   }, [props.show, season]);
 
-  const seasonArray = (num) => {
+  const getSeasonArray = (num) => {
     let seasons = [];
-    for (let i = 0; i < num; ++i) {
-      seasons.push(i + 1);
+    for (let i = 1; i <= num; ++i) {
+      seasons.push(
+        <button key={i} value={i} onClick={(e) => setSeason(e.target.value)}>
+          {i}
+        </button>
+      );
     }
     return seasons;
+  };
+
+  const updateChartData = (data) => {
+    const ratings = data.Episodes.map((ep) => ep.imdbRating);
+    ratings.unshift("Season " + data.Season);
+    return ratings;
+  };
+
+  const renderChart = (data) => {
+    c3.generate({
+      bindto: "#chart",
+      unload: true,
+      data: {
+        type: "bar",
+        columns: [data],
+      },
+    });
   };
 
   if (error) {
@@ -43,22 +66,8 @@ const Data = (props) => {
     return (
       <div className="data-wrapper">
         <h1>{items.Title}</h1>
-        <ul>
-          {seasons.map((i) => (
-            <button value={i} onClick={(e) => setSeason(e.target.value)}>
-              {i}
-            </button>
-          ))}
-        </ul>
-        <ul>
-          {items.Episodes &&
-            items.Episodes.map((episode) => (
-              <li>
-                <h4>{episode.Title}</h4>
-                <p>Rating: {episode.imdbRating}</p>
-              </li>
-            ))}
-        </ul>
+        <ul>{seasonBtnArray}</ul>
+        {isLoaded && <div id="chart"></div>}
       </div>
     );
   }
