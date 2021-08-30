@@ -45,11 +45,30 @@ const Content = () => {
   };
 
   return (
-    <main>
+    <main
+      style={{
+        width: '80%',
+        border: 'solid 1px red',
+        margin: '3em auto 0 auto',
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
       <SearchBar searchShow={(value) => setShow(value)} />
-      <h1>{items.Title}</h1>
-      <ul>{seasonBtnArray}</ul>
-      {show && <Chart isLoaded={isLoaded} items={items} error={error} />}
+      <div
+        style={{
+          width: '90%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          border: 'solid 1px #0f0',
+        }}
+      >
+        <h1 style={{ margin: '0' }}>{items.Title}</h1>
+        <ul style={{ padding: '0' }}>{seasonBtnArray}</ul>
+        {show && <Chart isLoaded={isLoaded} items={items} error={error} />}
+      </div>
     </main>
   );
 };

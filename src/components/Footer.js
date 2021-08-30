@@ -1,8 +1,21 @@
 const Footer = () => {
   return (
-    <footer>
-      <p>Powered by OMDb</p>
-      <p>© {new Date().getFullYear()}, Hallvard Jensen</p>
+    <footer
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: '0',
+        width: '100%',
+        height: '3em',
+        backgroundColor: '#3E00FF',
+        color: '#f4f4f6',
+      }}
+    >
+      <p style={{ margin: '0' }}>
+        Powered by OMDb ©{new Date().getFullYear()} Hallvard Jensen
+      </p>
     </footer>
   );
 };

@@ -50,7 +50,7 @@ const Chart = (props) => {
     return <p>Loading...</p>;
   } else {
     return (
-      <div className="data-wrapper">
+      <div className="data-wrapper" style={{ width: '90%' }}>
         {props.isLoaded && <div id="chart"></div>}
       </div>
     );
