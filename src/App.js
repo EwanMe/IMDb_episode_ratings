@@ -1,15 +1,10 @@
-import { useState } from "react";
-import "./App.css";
-import Data from "./components/Data";
-import SearchBar from "./components/SearchBar";
+import './App.css';
+import Content from './components/Content';
 
 const App = () => {
-  const [show, setShow] = useState("");
-
   return (
     <div className="App">
-      <SearchBar searchShow={(value) => setShow(value)} />
-      <Data show={show} />
+      <Content />
     </div>
   );
 };

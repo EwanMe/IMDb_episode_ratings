@@ -9,7 +9,9 @@ body {
 }
 
 #chart .c3-line {
+  fill: none;
 }
 
-#chart .c3-arc {
+#chart .c3-y-axis {
+  background-color: aqua;
 }
