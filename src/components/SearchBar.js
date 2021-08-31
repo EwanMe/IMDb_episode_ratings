@@ -1,6 +1,6 @@
 const SearchBar = (props) => {
   return (
-    <div style={{ width: '50%' }}>
+    <div>
       <input
         type="search"
         name="search-bar"
@@ -8,8 +8,10 @@ const SearchBar = (props) => {
         style={{ width: '100%', height: '3em' }}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            props.searchShow(e.target.value);
+            props.search(e.target.value);
             e.target.value = '';
+          } else {
+            props.update(e.target.value);
           }
         }}
       />
