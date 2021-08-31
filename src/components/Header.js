@@ -1,6 +1,7 @@
 const Header = () => {
   return (
     <header
+      role="banner"
       style={{
         backgroundColor: '#170055',
         color: '#F4F4F6',
