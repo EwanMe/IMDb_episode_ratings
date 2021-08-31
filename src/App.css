@@ -5,8 +5,8 @@ html,
 body {
   min-height: 100vh;
   margin: 0;
-  color: #170055;
-  background-color: #f4f4f6;
+  color: #010101;
+  background-color: #fffffc;
   font-family: 'Noto Sans JP', sans-serif;
   /* font-family: 'Open Sans', sans-serif; */
 }
@@ -17,9 +17,8 @@ body {
 }
 
 #chart .c3-line {
-  fill: none;
+  stroke-width: 2px;
 }
 
 #chart .c3-y-axis {
-  background-color: aqua;
 }

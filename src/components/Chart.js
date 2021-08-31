@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import c3 from 'c3';
+import 'c3/c3.css';
 
 const Chart = (props) => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const Chart = (props) => {
   };
 
   const renderChart = (data) => {
+    console.log(props.items.Episodes);
     c3.generate({
       bindto: '#chart',
       unload: true,
@@ -39,7 +41,22 @@ const Chart = (props) => {
         },
       },
       color: {
-        pattern: ['#f0f'],
+        pattern: [
+          '#478EFF',
+          '#FF5353',
+          '#7AFF60',
+          '#FFAE4B',
+          '#7157FF',
+          '#FAFF5B',
+          '#43EFFF',
+          '#FF68FF',
+        ],
+      },
+      tooltip: {
+        format: {
+          title: (d) => props.items.Episodes[d].Title,
+          name: '',
+        },
       },
     });
   };
