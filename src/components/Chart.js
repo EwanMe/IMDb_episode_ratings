@@ -16,7 +16,6 @@ const Chart = (props) => {
   };
 
   const renderChart = (data) => {
-    console.log(props.items.Episodes);
     c3.generate({
       bindto: '#chart',
       unload: true,
