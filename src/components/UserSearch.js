@@ -30,11 +30,16 @@ const UserSearch = (props) => {
     props.getShow(showQuery);
   }, [showQuery]);
 
+  const formatSearch = (string) => {
+    const items = string.trim().split(' ');
+    return items.join('+');
+  };
+
   return (
     <div style={{ width: '50%', position: 'absolute' }}>
       <SearchBar
         search={(value) => setShowQuery(value)}
-        update={(value) => setSearch(value)}
+        update={(value) => setSearch(formatSearch(value))}
       />
       {items && (
         <Autocomplete

@@ -6,13 +6,14 @@ const SearchBar = (props) => {
         name="search-bar"
         placeholder="Search for TV series"
         style={{ width: '100%', height: '3em' }}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === 'Enter') {
             props.search(e.target.value);
             e.target.value = '';
-          } else {
-            props.update(e.target.value);
           }
+        }}
+        onKeyUp={(e) => {
+          props.update(e.target.value);
         }}
       />
     </div>
