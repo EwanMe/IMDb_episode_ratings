@@ -28,7 +28,6 @@ const Content = () => {
             setIsLoaded(true);
             setItems(result);
             setSeasonBtnArray(getSeasonArray(result.totalSeasons));
-            console.log(result);
           },
           (error) => {
             setIsLoaded(true);
