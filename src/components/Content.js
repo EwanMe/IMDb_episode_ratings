@@ -56,8 +56,10 @@ const Content = () => {
       role="main"
       style={{
         width: '70%',
-        margin: '3em auto 0 auto',
+        margin: '3em auto 3em auto',
         display: 'flex',
+        flex: 'auto',
+        flexDirection: 'column',
         alignItems: 'center',
         flexDirection: 'column',
       }}

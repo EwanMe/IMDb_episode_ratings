@@ -3,9 +3,9 @@ const Footer = () => {
     <footer
       style={{
         display: 'flex',
+        flex: 'none',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'fixed',
         bottom: '0',
         width: '100%',
         height: '3em',
