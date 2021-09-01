@@ -61,7 +61,6 @@ const Content = () => {
         flex: 'auto',
         flexDirection: 'column',
         alignItems: 'center',
-        flexDirection: 'column',
       }}
     >
       <UserSearch getShow={(value) => setShow(value)} />
