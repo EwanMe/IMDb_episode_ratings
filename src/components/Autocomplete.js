@@ -1,6 +1,20 @@
+import { useEffect } from 'react';
+
 const Autocomplete = (props) => {
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      const element = document.querySelector('.autocomplete');
+      if (element && !element.contains(e.target)) {
+        props.exists(false);
+      }
+    });
+  }, []);
+
   return (
-    <div style={{ position: 'relative', zIndex: '2', width: '100%' }}>
+    <div
+      className="autocomplete"
+      style={{ position: 'relative', zIndex: '2', width: '100%' }}
+    >
       <ul
         style={{
           margin: '0',
@@ -10,6 +24,7 @@ const Autocomplete = (props) => {
         }}
       >
         {props.items.map((show) => (
+          // TODO: handle error
           <li
             key={show.imdbID}
             onClick={(e) => {

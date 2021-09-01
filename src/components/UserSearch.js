@@ -7,8 +7,8 @@ const UserSearch = (props) => {
   const [search, setSearch] = useState('');
 
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
     if (search.length > 0) {
@@ -16,11 +16,12 @@ const UserSearch = (props) => {
         .then((res) => res.json())
         .then(
           (result) => {
-            setIsLoaded(result.Response === 'True' ? true : false);
-            setItems(result.Search);
+            if (result.Response !== 'False') {
+              setItems(result.Search);
+            }
           },
           (error) => {
-            console.log(error);
+            setError(error);
           }
         );
     }
@@ -31,21 +32,27 @@ const UserSearch = (props) => {
   }, [showQuery]);
 
   const formatSearch = (string) => {
-    const items = string.trim().split(' ');
-    return items.join('+');
+    return string.trim().split(' ').join('+');
   };
 
   return (
     <div style={{ width: '50%', position: 'absolute' }}>
       <SearchBar
-        search={(value) => setShowQuery(value)}
-        update={(value) => setSearch(formatSearch(value))}
+        search={(value) => {
+          setShowQuery(value);
+          setShowAutocomplete(false);
+        }}
+        update={(value) => {
+          setSearch(formatSearch(value));
+          setShowAutocomplete(true);
+        }}
       />
-      {items && (
+      {showAutocomplete && (
         <Autocomplete
           items={items}
           error={error}
           select={(value) => setShowQuery(value)}
+          exists={(value) => setShowAutocomplete(value)}
         />
       )}
     </div>
