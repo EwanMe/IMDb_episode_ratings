@@ -12,7 +12,9 @@ const SearchBar = (props) => {
         }
       }}
       onKeyUp={(e) => {
-        props.update(e.target.value);
+        if (e.key !== 'Enter') {
+          props.update(e.target.value);
+        }
       }}
     />
   );
