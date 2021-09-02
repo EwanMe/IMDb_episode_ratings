@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 const Autocomplete = (props) => {
   useEffect(() => {
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', function clickAway(e) {
       const element = document.querySelector('.autocomplete');
       if (element && !element.contains(e.target)) {
-        props.exists(false);
+        props.exists(false); // Remove autocomplete
+        this.removeEventListener('click', clickAway); // Remove self.
       }
     });
   }, []);
@@ -21,7 +22,7 @@ const Autocomplete = (props) => {
           padding: '0',
           border: '0 solid silver',
           borderWidth: '0 0 1px 1px',
-          maxHeight: '300px',
+          maxHeight: '75vh',
           overflowY: 'scroll',
         }}
       >

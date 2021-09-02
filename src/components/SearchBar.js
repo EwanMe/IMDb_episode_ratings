@@ -16,6 +16,11 @@ const SearchBar = (props) => {
           props.update(e.target.value);
         }
       }}
+      onClick={(e) => {
+        if (e.target.value.length !== 0) {
+          props.update(e.target.value);
+        }
+      }}
     />
   );
 };
