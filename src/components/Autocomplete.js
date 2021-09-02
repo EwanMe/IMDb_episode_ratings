@@ -20,8 +20,7 @@ const Autocomplete = (props) => {
         style={{
           margin: '0',
           padding: '0',
-          border: '0 solid silver',
-          borderWidth: '0 0 1px 1px',
+          border: '1px solid silver',
           maxHeight: '75vh',
           overflowY: 'scroll',
         }}
@@ -34,14 +33,19 @@ const Autocomplete = (props) => {
               props.select(show.Title);
               e.currentTarget.parentElement.remove();
             }}
-            onMouseEnter={(e) => (e.target.style.borderColor = 'blue')}
-            onMouseLeave={(e) => (e.target.style.borderColor = 'silver')}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = '#eee')
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = '#fffffc')
+            }
             style={{
               margin: '0',
               padding: '0.7em',
               listStyle: 'none',
-              border: '0 solid silver',
-              borderWidth: '1px 1px 0 0',
+              border: '1px solid silver',
+              marginTop: '-1px',
+              marginLeft: '-1px',
               backgroundColor: '#fffffc',
               cursor: 'pointer',
             }}
