@@ -21,6 +21,8 @@ const Autocomplete = (props) => {
           padding: '0',
           border: '0 solid silver',
           borderWidth: '0 0 1px 1px',
+          maxHeight: '300px',
+          overflowY: 'scroll',
         }}
       >
         {props.items.map((show) => (
@@ -43,7 +45,30 @@ const Autocomplete = (props) => {
               cursor: 'pointer',
             }}
           >
-            {show.Title}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={show.Poster}
+                style={{ minWidth: '60px', maxWidth: '60px' }}
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'center',
+                  marginLeft: '2em',
+                }}
+              >
+                <h4 style={{ margin: '0' }}>{show.Title}</h4>
+                <p style={{ margin: '0' }}>{show.Year}</p>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
