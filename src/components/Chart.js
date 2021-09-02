@@ -4,10 +4,10 @@ import 'c3/c3.css';
 
 const Chart = (props) => {
   useEffect(() => {
-    if (props.items.Episodes) {
-      renderChart(updateChartData(props.items));
+    if (props.data.Episodes) {
+      renderChart(updateChartData(props.data));
     }
-  }, [props.items]);
+  }, [props.data]);
 
   const updateChartData = (data) => {
     const ratings = data.Episodes.map((ep) => ep.imdbRating);
@@ -37,6 +37,9 @@ const Chart = (props) => {
             text: 'Episodes',
             position: 'inner-center',
           },
+          tick: {
+            format: (x) => x + 1, // x-axis starts on episode 1
+          },
         },
       },
       color: {
@@ -53,8 +56,9 @@ const Chart = (props) => {
       },
       tooltip: {
         format: {
-          title: (d) => props.items.Episodes[d].Title,
-          name: '',
+          title: (d) => props.data.Episodes[d].Title,
+          name: (name, ratio, id, index) => name,
+          value: (name, ratio, id, index) => 'Rating: ' + name,
         },
       },
     });
@@ -62,7 +66,7 @@ const Chart = (props) => {
 
   if (props.error) {
     return <p>Error: {props.error.message}</p>;
-  } else if (!props.isLoaded || !props.items) {
+  } else if (!props.isLoaded || !props.data) {
     return <p>Loading...</p>;
   } else {
     return (

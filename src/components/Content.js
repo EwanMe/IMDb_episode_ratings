@@ -7,7 +7,7 @@ const Content = () => {
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [data, setData] = useState([]);
 
   const [seasonBtnArray, setSeasonBtnArray] = useState([]);
   const [season, setSeason] = useState(1);
@@ -26,7 +26,7 @@ const Content = () => {
         .then(
           (result) => {
             setIsLoaded(true);
-            setItems(result);
+            setData(result);
             setSeasonBtnArray(getSeasonArray(result.totalSeasons));
           },
           (error) => {
@@ -72,9 +72,9 @@ const Content = () => {
           alignItems: 'center',
         }}
       >
-        <h1 style={{ margin: '0', width: '75%' }}>{items.Title}</h1>
+        <h1 style={{ margin: '0', width: '75%' }}>{data.Title}</h1>
         <ul style={{ padding: '0' }}>{seasonBtnArray}</ul>
-        {show && <Chart isLoaded={isLoaded} items={items} error={error} />}
+        {show && <Chart isLoaded={isLoaded} data={data} error={error} />}
       </div>
     </main>
   );
