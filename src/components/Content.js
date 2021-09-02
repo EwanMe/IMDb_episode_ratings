@@ -8,6 +8,7 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
+  const [dynamicChart, setDynamicChart] = useState(false);
 
   const [seasonBtnArray, setSeasonBtnArray] = useState([]);
   const [season, setSeason] = useState(1);
@@ -74,7 +75,18 @@ const Content = () => {
       >
         <h1 style={{ margin: '0', width: '75%' }}>{data.Title}</h1>
         <ul style={{ padding: '0' }}>{seasonBtnArray}</ul>
-        {show && <Chart isLoaded={isLoaded} data={data} error={error} />}
+        <div>
+          <button onClick={() => setDynamicChart(false)}>Static</button>
+          <button onClick={() => setDynamicChart(true)}>Dynamic</button>
+        </div>
+        {show && (
+          <Chart
+            isLoaded={isLoaded}
+            data={data}
+            error={error}
+            isDynamic={dynamicChart}
+          />
+        )}
       </div>
     </main>
   );

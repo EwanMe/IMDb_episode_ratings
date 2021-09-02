@@ -7,7 +7,7 @@ const Chart = (props) => {
     if (props.data.Episodes) {
       renderChart(updateChartData(props.data));
     }
-  }, [props.data]);
+  }, [props.data, props.isDynamic]);
 
   const updateChartData = (data) => {
     const ratings = data.Episodes.map((ep) => ep.imdbRating);
@@ -29,8 +29,8 @@ const Chart = (props) => {
             text: 'Rating',
             position: 'outer-middle',
           },
-          max: 10,
-          min: 1,
+          max: props.isDynamic ? undefined : 10,
+          min: props.isDynamic ? undefined : 1,
         },
         x: {
           label: {
