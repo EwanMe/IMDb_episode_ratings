@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createElement } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
 
@@ -8,10 +8,12 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
-  const [dynamicChart, setDynamicChart] = useState(false);
 
-  const [seasonBtnArray, setSeasonBtnArray] = useState([]);
   const [season, setSeason] = useState(1);
+  const [seasonArray, setSeasonArray] = useState([]);
+  const [arrayIsBtn, setArrayIsBtn] = useState(true);
+
+  const [dynamicChart, setDynamicChart] = useState(false);
 
   useEffect(() => {
     // Displays season 1 when querying new show.
@@ -28,7 +30,7 @@ const Content = () => {
           (result) => {
             setIsLoaded(true);
             setData(result);
-            setSeasonBtnArray(getSeasonArray(result.totalSeasons));
+            setSeasonArray(createSeasonArray(result.totalSeasons));
           },
           (error) => {
             setIsLoaded(true);
@@ -38,17 +40,47 @@ const Content = () => {
     }
   }, [show, season]);
 
-  const getSeasonArray = (num) => {
+  const createSeasonArray = (num) => {
     // Generates array of buttons to select seasons from.
     let seasons = [];
     for (let i = 1; i <= num; ++i) {
-      seasons.push(
-        <button key={i} value={i} onClick={(e) => setSeason(e.target.value)}>
+      seasons.push(getButton(i));
+    }
+    setArrayIsBtn(true);
+    return seasons;
+  };
+
+  const getButton = (i) => {
+    return (
+      <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
+        <button value={i} onClick={(e) => setSeason(e.target.value)}>
           {i}
         </button>
-      );
+      </li>
+    );
+  };
+
+  const getCheckbox = (i) => {
+    return (
+      <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
+        <input type="checkbox" value={i} />
+      </li>
+    );
+  };
+
+  const replaceSeasonArray = () => {
+    setArrayIsBtn(!arrayIsBtn);
+
+    let newArray = [];
+    for (let i = 1; i <= seasonArray.length; ++i) {
+      if (arrayIsBtn) {
+        newArray.push(getCheckbox(i));
+      } else {
+        newArray.push(getButton(i));
+      }
     }
-    return seasons;
+
+    setSeasonArray(newArray);
   };
 
   return (
@@ -74,11 +106,13 @@ const Content = () => {
         }}
       >
         <h1 style={{ margin: '0', width: '75%' }}>{data.Title}</h1>
-        <ul style={{ padding: '0' }}>{seasonBtnArray}</ul>
-        <div>
-          <button onClick={() => setDynamicChart(false)}>Static</button>
-          <button onClick={() => setDynamicChart(true)}>Dynamic</button>
-        </div>
+        <ul className="season-array" style={{ padding: '0' }}>
+          {seasonArray}
+        </ul>
+        <button onClick={() => replaceSeasonArray()}>Compare</button>
+        <button onClick={() => setDynamicChart(!dynamicChart)}>
+          Toggle static/dynamic
+        </button>
         {show && (
           <Chart
             isLoaded={isLoaded}
