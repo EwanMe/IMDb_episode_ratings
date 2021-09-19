@@ -30,7 +30,7 @@ const Autocomplete = (props) => {
           <li
             key={show.imdbID}
             onClick={(e) => {
-              props.select(show.Title);
+              props.select(show.imdbID);
               e.currentTarget.parentElement.remove();
             }}
             onMouseEnter={(e) =>
