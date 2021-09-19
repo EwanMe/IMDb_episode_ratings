@@ -9,36 +9,36 @@ const Content = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
 
-  const [season, setSeason] = useState(1);
-  const [seasonArray, setSeasonArray] = useState([]);
+  const [seasonChecks, setSeasonChecks] = useState([]);
+  const [selection, setSelection] = useState([]);
+  const [seasonSelector, setSeasonSelector] = useState([]);
   const [arrayIsBtn, setArrayIsBtn] = useState(true);
 
   const [dynamicChart, setDynamicChart] = useState(false);
 
-  useEffect(() => {
-    // Displays season 1 when querying new show.
-    setSeason(1);
-  }, [show]);
-
-  useEffect(() => {
+  useEffect(async () => {
     if (show.length > 0) {
-      fetch(
-        `http://www.omdbapi.com/?t=${show}&season=${season}&type=series&apikey=590114db`
-      )
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            setIsLoaded(true);
-            setData(result);
-            setSeasonArray(createSeasonArray(result.totalSeasons));
-          },
-          (error) => {
-            setIsLoaded(true);
+      let totalSeasons = 3;
+      let queryData = [];
+
+      for (let i = 1; i <= totalSeasons; ++i) {
+        await fetch(
+          `http://www.omdbapi.com/?t=${show}&season=${i}&type=series&apikey=590114db`
+        )
+          .then((res) => res.json())
+          .then((result) => {
+            queryData.push(result);
+          })
+          .catch((error) => {
             setError(error);
-          }
-        );
+          });
+      }
+
+      setData(queryData);
+      setSeasonSelector(createSeasonArray(totalSeasons));
+      setIsLoaded(true);
     }
-  }, [show, season]);
+  }, [show]);
 
   const createSeasonArray = (num) => {
     // Generates array of buttons to select seasons from.
@@ -53,7 +53,10 @@ const Content = () => {
   const getButton = (i) => {
     return (
       <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
-        <button value={i} onClick={(e) => setSeason(e.target.value)}>
+        <button
+          name={`Season ${i}`}
+          onClick={() => setSelection(['Season ' + i])}
+        >
           {i}
         </button>
       </li>
@@ -63,7 +66,12 @@ const Content = () => {
   const getCheckbox = (i) => {
     return (
       <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
-        <input type="checkbox" value={i} />
+        <label htmlFor={`Season ${i}`}>{i}</label>
+        <input
+          name={`Season ${i}`}
+          type="checkbox"
+          onChange={(e) => handleSeasonCheck(e, i - 1)}
+        />
       </li>
     );
   };
@@ -72,16 +80,26 @@ const Content = () => {
     setArrayIsBtn(!arrayIsBtn);
 
     let newArray = [];
-    for (let i = 1; i <= seasonArray.length; ++i) {
+    let checkmarks = [];
+    for (let i = 1; i <= seasonSelector.length; ++i) {
       if (arrayIsBtn) {
-        newArray.push(getCheckbox(i));
+        if (i === 1) {
+          newArray.push(getCheckbox(i));
+          // Do something unique for first since season 1 is
+          // selected by default.
+        } else {
+          newArray.push(getCheckbox(i));
+        }
       } else {
         newArray.push(getButton(i));
       }
     }
 
-    setSeasonArray(newArray);
+    setSeasonSelector(newArray);
+    setSeasonChecks(checkmarks);
   };
+
+  const handleSeasonCheck = (e, i) => {};
 
   return (
     <main
@@ -105,9 +123,11 @@ const Content = () => {
           alignItems: 'center',
         }}
       >
-        <h1 style={{ margin: '0', width: '75%' }}>{data.Title}</h1>
-        <ul className="season-array" style={{ padding: '0' }}>
-          {seasonArray}
+        <h1 style={{ margin: '0', width: '75%' }}>
+          {isLoaded && data[0].Title}
+        </h1>
+        <ul className="season-select" style={{ padding: '0' }}>
+          {seasonSelector}
         </ul>
         <button onClick={() => replaceSeasonArray()}>Compare</button>
         <button onClick={() => setDynamicChart(!dynamicChart)}>
@@ -118,6 +138,7 @@ const Content = () => {
             isLoaded={isLoaded}
             data={data}
             error={error}
+            selection={selection}
             isDynamic={dynamicChart}
           />
         )}
