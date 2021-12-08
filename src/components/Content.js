@@ -8,6 +8,7 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
+  const [showInfo, setShowInfo] = useState(null);
 
   const [selection, setSelection] = useState([]);
   const [seasonSelector, setSeasonSelector] = useState([]);
@@ -17,20 +18,30 @@ const Content = () => {
 
   useEffect(async () => {
     if (show.length > 0) {
-      let totalSeasons = 3;
-      let queryData = [];
+      let totalSeasons = 1;
+      await fetch(
+        `http://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          setShowInfo(result);
+          totalSeasons = result.totalSeasons;
+        })
+        .catch((error) => setError(error));
 
+      let queryData = [];
       for (let i = 1; i <= totalSeasons; ++i) {
         await fetch(
-          `http://www.omdbapi.com/?t=${show}&season=${i}&type=series&apikey=590114db`
+          `http://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
         )
           .then((res) => res.json())
           .then((result) => {
             queryData.push(result);
+            // if (i === 1) {
+            //   totalSeasons = result.totalSeasons;
+            // }
           })
-          .catch((error) => {
-            setError(error);
-          });
+          .catch((error) => setError(error));
       }
 
       setData(queryData);
@@ -132,7 +143,7 @@ const Content = () => {
         }}
       >
         <h1 style={{ margin: '0', width: '75%' }}>
-          {isLoaded && data[0].Title}
+          {isLoaded && showInfo.Title}
         </h1>
         <ul className="season-select" style={{ padding: '0' }}>
           {seasonSelector}

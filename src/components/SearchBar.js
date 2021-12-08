@@ -7,7 +7,7 @@ const SearchBar = (props) => {
       style={{ width: '100%', height: '3em' }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          props.search(e.target.value);
+          props.autoSelect(); // Automatically selects most relevant show.
           e.target.value = '';
         }
       }}

@@ -38,8 +38,8 @@ const UserSearch = (props) => {
   return (
     <div style={{ width: '50%', position: 'absolute' }}>
       <SearchBar
-        search={(value) => {
-          setShowQuery(value);
+        autoSelect={() => {
+          setShowQuery(items[0].imdbID); // Default value is first item.
           setShowAutocomplete(false);
         }}
         update={(value) => {
