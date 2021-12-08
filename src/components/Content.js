@@ -142,9 +142,46 @@ const Content = () => {
           alignItems: 'center',
         }}
       >
-        <h1 style={{ margin: '0', width: '75%' }}>
-          {isLoaded && showInfo.Title}
-        </h1>
+        {isLoaded && (
+          <div
+            style={{
+              width: '75%',
+              height: '200px',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <img
+              src={showInfo.Poster}
+              style={{ minWidth: '100px', maxWidth: '100px', maxHeight: '90%' }}
+            />
+            <div style={{ margin: 'auto 5%', width: '75%' }}>
+              <h1>{showInfo.Title}</h1>
+              <p>{showInfo.Year}</p>
+              <div
+                style={{
+                  height: '60px',
+                  width: '60px',
+                  backgroundColor:
+                    showInfo.imdbRating > 8
+                      ? '#04724D'
+                      : showInfo.imdbRating > 6
+                      ? '#EB9C0A'
+                      : '#BC2C1A',
+                  color: 'white',
+                  borderRadius: '10%',
+                  fontSize: '1.2em',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {showInfo.imdbRating}
+              </div>
+            </div>
+          </div>
+        )}
         <ul className="season-select" style={{ padding: '0' }}>
           {seasonSelector}
         </ul>
