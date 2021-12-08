@@ -1,4 +1,4 @@
-import { useState, useEffect, createElement } from 'react';
+import { useState, useEffect } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
 
@@ -9,7 +9,6 @@ const Content = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
 
-  const [seasonChecks, setSeasonChecks] = useState([]);
   const [selection, setSelection] = useState([]);
   const [seasonSelector, setSeasonSelector] = useState([]);
   const [arrayIsBtn, setArrayIsBtn] = useState(true);
@@ -40,6 +39,7 @@ const Content = () => {
     }
   }, [show]);
 
+  // TODO: This and replaceSeasonArray should be merged.
   const createSeasonArray = (num) => {
     // Generates array of buttons to select seasons from.
     let seasons = [];
@@ -55,7 +55,7 @@ const Content = () => {
       <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
         <button
           name={`Season ${i}`}
-          onClick={() => setSelection(['Season ' + i])}
+          onClick={() => setSelection([`Season ${i}`])}
         >
           {i}
         </button>
@@ -68,9 +68,10 @@ const Content = () => {
       <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
         <label htmlFor={`Season ${i}`}>{i}</label>
         <input
+          id={`season-${i}-checkbox`}
           name={`Season ${i}`}
           type="checkbox"
-          onChange={(e) => handleSeasonCheck(e, i - 1)}
+          onChange={(e) => handleSeasonCheck(e, i)}
         />
       </li>
     );
@@ -80,13 +81,13 @@ const Content = () => {
     setArrayIsBtn(!arrayIsBtn);
 
     let newArray = [];
-    let checkmarks = [];
     for (let i = 1; i <= seasonSelector.length; ++i) {
       if (arrayIsBtn) {
         if (i === 1) {
           newArray.push(getCheckbox(i));
           // Do something unique for first since season 1 is
           // selected by default.
+          // ... and what would that be?
         } else {
           newArray.push(getCheckbox(i));
         }
@@ -96,10 +97,17 @@ const Content = () => {
     }
 
     setSeasonSelector(newArray);
-    setSeasonChecks(checkmarks);
   };
 
-  const handleSeasonCheck = (e, i) => {};
+  const handleSeasonCheck = (e, i) => {
+    if (e.currentTarget.checked) {
+      setSelection((selection) => [...selection, `Season ${i}`].sort());
+    } else {
+      setSelection((selection) =>
+        selection.filter((item) => item !== `Season ${i}`).sort()
+      );
+    }
+  };
 
   return (
     <main
