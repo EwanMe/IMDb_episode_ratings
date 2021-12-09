@@ -1,3 +1,5 @@
+import Chip from './Chip';
+
 const ShowInfo = ({
   title,
   poster,
@@ -16,6 +18,7 @@ const ShowInfo = ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        padding: '0.5em',
       }}
     >
       <img
@@ -27,6 +30,7 @@ const ShowInfo = ({
         <div
           style={{
             display: 'flex',
+            marginBottom: '10px',
             flexDirection: 'row',
             alignItems: 'center',
           }}
@@ -50,6 +54,9 @@ const ShowInfo = ({
             {rating}
           </div>
         </div>
+        {genre.split(',').map((item) => (
+          <Chip text={item.trim()} />
+        ))}
         <p style={{ margin: '0', fontStyle: 'italic' }}>({year})</p>
         <p style={{ margin: '0', fontSize: '0.8em' }}>{plot}</p>
         <p
