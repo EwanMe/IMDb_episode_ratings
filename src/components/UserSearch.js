@@ -2,7 +2,7 @@ import SearchBar from './SearchBar';
 import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
 
-const UserSearch = (props) => {
+const UserSearch = ({ getShow }) => {
   const [showQuery, setShowQuery] = useState('');
   const [search, setSearch] = useState('');
 
@@ -28,7 +28,7 @@ const UserSearch = (props) => {
   }, [search]);
 
   useEffect(() => {
-    props.getShow(showQuery);
+    getShow(showQuery);
   }, [showQuery]);
 
   const formatSearch = (string) => {

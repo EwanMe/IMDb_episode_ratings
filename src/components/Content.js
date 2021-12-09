@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
+import ShowInfo from './ShowInfo';
 
 const Content = () => {
   const [show, setShow] = useState('');
@@ -49,6 +50,10 @@ const Content = () => {
       setIsLoaded(true);
     }
   }, [show]);
+
+  useEffect(() => {
+    setSelection('Season 1');
+  }, [data]);
 
   // TODO: This and replaceSeasonArray should be merged.
   const createSeasonArray = (num) => {
@@ -143,44 +148,16 @@ const Content = () => {
         }}
       >
         {isLoaded && (
-          <div
-            style={{
-              width: '75%',
-              height: '200px',
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <img
-              src={showInfo.Poster}
-              style={{ minWidth: '100px', maxWidth: '100px', maxHeight: '90%' }}
-            />
-            <div style={{ margin: 'auto 5%', width: '75%' }}>
-              <h1>{showInfo.Title}</h1>
-              <p>{showInfo.Year}</p>
-              <div
-                style={{
-                  height: '60px',
-                  width: '60px',
-                  backgroundColor:
-                    showInfo.imdbRating > 8
-                      ? '#04724D'
-                      : showInfo.imdbRating > 6
-                      ? '#EB9C0A'
-                      : '#BC2C1A',
-                  color: 'white',
-                  borderRadius: '10%',
-                  fontSize: '1.2em',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {showInfo.imdbRating}
-              </div>
-            </div>
-          </div>
+          <ShowInfo
+            title={showInfo.Title}
+            poster={showInfo.Poster}
+            year={showInfo.Year}
+            rating={showInfo.imdbRating}
+            genre={showInfo.Genre}
+            actors={showInfo.Actors}
+            writers={showInfo.Writer}
+            plot={showInfo.Plot}
+          />
         )}
         <ul className="season-select" style={{ padding: '0' }}>
           {seasonSelector}
