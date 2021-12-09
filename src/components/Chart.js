@@ -10,7 +10,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
       const allPlots = data.map((item) => createDataPlot(item));
       renderChart(allPlots);
     }
-  }, [data]);
+  }, [isLoaded, data]);
 
   useEffect(() => {
     // TODO: Load new data in first time, and hide them after, not unload.
@@ -88,7 +88,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
         },
         tooltip: {
           format: {
-            //title: (d) => props.data.Episodes[d].Title,
+            //title: (ep) => data.Episodes[ep].Title,
             name: (name) => name,
             value: (name) => 'Rating: ' + name,
           },
