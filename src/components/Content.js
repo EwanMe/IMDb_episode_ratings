@@ -38,9 +38,6 @@ const Content = () => {
           .then((res) => res.json())
           .then((result) => {
             queryData.push(result);
-            // if (i === 1) {
-            //   totalSeasons = result.totalSeasons;
-            // }
           })
           .catch((error) => setError(error));
       }
