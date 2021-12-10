@@ -20,8 +20,9 @@ const Autocomplete = (props) => {
         style={{
           margin: '0',
           padding: '0',
-          border: '1px solid silver',
-          maxHeight: '75vh',
+          border: '2px solid silver',
+          borderTop: '1px solid silver',
+          maxHeight: '70vh',
           overflowY: 'scroll',
         }}
       >
@@ -40,6 +41,7 @@ const Autocomplete = (props) => {
               (e.currentTarget.style.backgroundColor = '#fffffc')
             }
             style={{
+              height: '4.2em',
               margin: '0',
               padding: '0.7em',
               listStyle: 'none',
@@ -48,10 +50,12 @@ const Autocomplete = (props) => {
               marginLeft: '-1px',
               backgroundColor: '#fffffc',
               cursor: 'pointer',
+              fontSize: '1.2em',
             }}
           >
             <div
               style={{
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -59,19 +63,20 @@ const Autocomplete = (props) => {
             >
               <img
                 src={show.Poster}
-                style={{ minWidth: '60px', maxWidth: '60px' }}
+                style={{ maxWidth: '60px', height: '100%' }}
               />
               <div
                 style={{
+                  height: '80%',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'flex-start',
-                  justifyContent: 'center',
+                  justifyContent: 'space-around',
                   marginLeft: '2em',
                 }}
               >
                 <h4 style={{ margin: '0' }}>{show.Title}</h4>
-                <p style={{ margin: '0' }}>{show.Year}</p>
+                <p style={{ margin: '0', fontSize: '0.8em' }}>{show.Year}</p>
               </div>
             </div>
           </li>

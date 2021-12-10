@@ -1,7 +1,7 @@
 import Header from './components/Header';
 import Content from './components/Content';
 import Footer from './components/Footer';
-import './App.css';
+import './App.scss';
 
 const App = () => {
   return (

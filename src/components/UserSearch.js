@@ -31,6 +31,16 @@ const UserSearch = ({ getShow }) => {
     getShow(showQuery);
   }, [showQuery]);
 
+  useEffect(() => {
+    let searchBar = document.querySelector('.search-bar');
+    if (showAutocomplete) {
+      searchBar.style.borderRadius = '27px 27px 0 0';
+      searchBar.style.borderBottom = 'none';
+    } else {
+      searchBar.removeAttribute('style');
+    }
+  }, [showAutocomplete]);
+
   const formatSearch = (string) => {
     return string.trim().split(' ').join('+');
   };

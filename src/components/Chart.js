@@ -5,6 +5,17 @@ import 'c3/c3.css';
 const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
   const [chart, setChart] = useState(null);
 
+  const colors = [
+    '#478EFF',
+    '#FF5353',
+    '#7AFF60',
+    '#FFAE4B',
+    '#7157FF',
+    '#FAFF5B',
+    '#43EFFF',
+    '#FF68FF',
+  ];
+
   useEffect(() => {
     if (isLoaded) {
       const allPlots = data.map((item) => createDataPlot(item));
@@ -73,16 +84,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           },
         },
         color: {
-          pattern: [
-            '#478EFF',
-            '#FF5353',
-            '#7AFF60',
-            '#FFAE4B',
-            '#7157FF',
-            '#FAFF5B',
-            '#43EFFF',
-            '#FF68FF',
-          ],
+          pattern: colors,
         },
         tooltip: {
           format: {
