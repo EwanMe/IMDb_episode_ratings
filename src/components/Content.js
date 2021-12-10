@@ -49,7 +49,7 @@ const Content = () => {
   }, [show]);
 
   useEffect(() => {
-    setSelection('Season 1');
+    setSelection(['Season 1']);
   }, [data]);
 
   // TODO: This and replaceSeasonArray should be merged.
@@ -114,7 +114,9 @@ const Content = () => {
 
   const handleSeasonCheck = (e, i) => {
     if (e.currentTarget.checked) {
-      setSelection((selection) => [...selection, `Season ${i}`].sort());
+      if (!selection.includes(`Season ${i}`)) {
+        setSelection((selection) => [...selection, `Season ${i}`].sort());
+      }
     } else {
       setSelection((selection) =>
         selection.filter((item) => item !== `Season ${i}`).sort()

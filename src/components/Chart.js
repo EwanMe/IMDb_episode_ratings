@@ -10,11 +10,10 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
       const allPlots = data.map((item) => createDataPlot(item));
       renderChart(allPlots);
     }
-  }, [isLoaded, data]);
+  }, [isLoaded, data, selection]);
 
   useEffect(() => {
     // TODO: Load new data in first time, and hide them after, not unload.
-    // console.log('Chart.js 17: ', props.selection);
     if (chart) {
       const loaded = chart.data();
 
@@ -40,7 +39,6 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
   }, [isDynamic]);
 
   const createDataPlot = (data) => {
-    console.log('create data plot', data);
     const ratings = data.Episodes.map((ep) => ep.imdbRating);
     ratings.unshift('Season ' + data.Season); // Data array starts with label name
     return ratings;
@@ -88,7 +86,12 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
         },
         tooltip: {
           format: {
-            //title: (ep) => data.Episodes[ep].Title,
+            title: (episode) =>
+              selection.map((item) => {
+                const episodes = data[item.slice(-1) - 1].Episodes;
+                if (episode < episodes.length) return episodes[episode].Title;
+                return 'N/A';
+              }),
             name: (name) => name,
             value: (name) => 'Rating: ' + name,
           },
