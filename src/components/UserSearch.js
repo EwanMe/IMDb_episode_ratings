@@ -46,7 +46,7 @@ const UserSearch = ({ getShow }) => {
   };
 
   return (
-    <div style={{ width: '50%', position: 'absolute' }}>
+    <div className="search-wrapper">
       <SearchBar
         autoSelect={() => {
           setShowQuery(items[0].imdbID); // Default value is first item.

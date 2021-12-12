@@ -90,7 +90,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           format: {
             title: (episode) =>
               selection.map((item) => {
-                const episodes = data[item.slice(-1) - 1].Episodes;
+                const episodes = data[item.split(' ').slice(-1) - 1].Episodes;
                 if (episode < episodes.length) return episodes[episode].Title;
                 return 'N/A';
               }),

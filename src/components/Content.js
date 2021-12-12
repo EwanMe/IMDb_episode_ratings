@@ -125,27 +125,9 @@ const Content = () => {
   };
 
   return (
-    <main
-      role="main"
-      style={{
-        width: '70%',
-        margin: '3em auto 3em auto',
-        display: 'flex',
-        flex: 'auto',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <main role="main">
       <UserSearch getShow={(value) => setShow(value)} />
-      <div
-        style={{
-          width: '100%',
-          paddingTop: '3em',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <div className="content-wrapper">
         {isLoaded && (
           <ShowInfo
             title={showInfo.Title}
@@ -158,9 +140,7 @@ const Content = () => {
             plot={showInfo.Plot}
           />
         )}
-        <ul className="season-select" style={{ padding: '0' }}>
-          {seasonSelector}
-        </ul>
+        <ul className="season-select">{seasonSelector}</ul>
         <button onClick={() => replaceSeasonArray()}>Compare</button>
         <button onClick={() => setDynamicChart(!dynamicChart)}>
           Toggle static/dynamic

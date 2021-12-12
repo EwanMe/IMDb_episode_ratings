@@ -11,21 +11,8 @@ const ShowInfo = ({
   plot,
 }) => {
   return (
-    <div
-      style={{
-        width: '75%',
-        height: '200px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: '0.5em',
-      }}
-    >
-      <img
-        src={poster}
-        alt={`${title} poster`}
-        style={{ minWidth: '100px', maxWidth: '100px', maxHeight: '90%' }}
-      />
+    <div className="showinfo-wrapper">
+      <img src={poster} alt={`${title} poster`} className="showinfo-poster" />
       <div style={{ margin: 'auto 5%', width: '75%' }}>
         <div
           style={{
@@ -37,18 +24,10 @@ const ShowInfo = ({
         >
           <h1 style={{ margin: '0' }}>{title}</h1>
           <div
+            className="global-rating-box"
             style={{
-              height: '3em',
-              width: '3em',
-              marginLeft: '20px',
               backgroundColor:
                 rating > 8 ? '#04724D' : rating > 6 ? '#EB9C0A' : '#BC2C1A',
-              color: 'white',
-              borderRadius: '10%',
-              fontSize: '1em',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
           >
             {rating}
@@ -65,7 +44,7 @@ const ShowInfo = ({
             fontSize: '0.7em',
           }}
         >
-          <b>Written by:</b> {writers}
+          <b>Written by:&ensp;</b> {writers}
         </p>
         <p
           style={{
@@ -73,7 +52,7 @@ const ShowInfo = ({
             fontSize: '0.7em',
           }}
         >
-          <b>Starring:</b> {actors}
+          <b>Starring:&emsp;&ensp;</b> {actors}
         </p>
       </div>
     </div>
