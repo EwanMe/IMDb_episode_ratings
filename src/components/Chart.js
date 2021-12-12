@@ -8,13 +8,16 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
   const colors = [
     '#478EFF',
     '#FF5353',
-    '#7AFF60',
-    '#FFAE4B',
+    '#4B9C3B',
+    '#CF8D3C',
     '#7157FF',
-    '#FAFF5B',
-    '#43EFFF',
+    '#FAE739',
+    '#3AD3E0',
     '#FF68FF',
-  ];
+  ]
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
 
   useEffect(() => {
     if (isLoaded) {
@@ -75,7 +78,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           },
           x: {
             label: {
-              text: 'Episodes',
+              text: 'Episode',
               position: 'inner-center',
             },
             tick: {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
 import ShowInfo from './ShowInfo';
@@ -66,7 +66,7 @@ const Content = () => {
         });
       }
     }
-  }, [selection]);
+  }, [selection, seasonSelector]);
 
   // TODO: This and replaceSeasonArray should be merged.
   const createSeasonArray = (num) => {
