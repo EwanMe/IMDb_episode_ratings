@@ -15,6 +15,7 @@ const Content = () => {
   const [seasonSelector, setSeasonSelector] = useState([]);
   const [arrayIsBtn, setArrayIsBtn] = useState(true);
 
+  const [comparison, setComparison] = useState(false);
   const [dynamicChart, setDynamicChart] = useState(false);
 
   useEffect(async () => {
@@ -68,6 +69,10 @@ const Content = () => {
     }
   }, [selection, seasonSelector]);
 
+  useEffect(() => {
+    replaceSeasonArray();
+  }, [comparison]);
+
   // TODO: This and replaceSeasonArray should be merged.
   const createSeasonArray = (num) => {
     // Generates array of buttons to select seasons from.
@@ -75,7 +80,6 @@ const Content = () => {
     for (let i = 1; i <= num; ++i) {
       seasons.push(getButton(i));
     }
-    setArrayIsBtn(true);
     return seasons;
   };
 
@@ -108,19 +112,10 @@ const Content = () => {
   };
 
   const replaceSeasonArray = () => {
-    setArrayIsBtn(!arrayIsBtn);
-
     let newArray = [];
     for (let i = 1; i <= seasonSelector.length; ++i) {
-      if (arrayIsBtn) {
-        if (i === 1) {
-          newArray.push(getCheckbox(i));
-          // Do something unique for first since season 1 is
-          // selected by default.
-          // ... and what would that be?
-        } else {
-          newArray.push(getCheckbox(i));
-        }
+      if (comparison) {
+        newArray.push(getCheckbox(i));
       } else {
         newArray.push(getButton(i));
       }
@@ -160,10 +155,20 @@ const Content = () => {
         {show && (
           <div className="global-chart-wrapper">
             <div className="chart-control-wrapper">
-              <button onClick={() => replaceSeasonArray()}>Compare</button>
-              <button onClick={() => setDynamicChart(!dynamicChart)}>
-                Toggle static/dynamic
-              </button>
+              <label htmlFor="Compare seasons">Comparison</label>
+              <input
+                type="checkbox"
+                name="Compare seasons"
+                className="switch"
+                onChange={(e) => setComparison(e.target.checked)}
+              />
+              <label htmlFor="Dynamic chart">Dynamic</label>
+              <input
+                type="checkbox"
+                name="Dynamic chart"
+                className="switch"
+                onChange={(e) => setDynamicChart(e.target.checked)}
+              />
             </div>
             <ul className="season-select">{seasonSelector}</ul>
             <Chart
