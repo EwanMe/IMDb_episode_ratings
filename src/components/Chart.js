@@ -108,9 +108,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
     return <p>Loading...</p>;
   } else {
     return (
-      <div className="data-wrapper" style={{ width: '90%' }}>
-        {isLoaded && <div id="chart"></div>}
-      </div>
+      <div className="chart-wrapper">{isLoaded && <div id="chart"></div>}</div>
     );
   }
 };

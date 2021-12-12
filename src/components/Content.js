@@ -52,6 +52,22 @@ const Content = () => {
     setSelection(['Season 1']);
   }, [data]);
 
+  useEffect(() => {
+    if (show) {
+      const seasonList = [...document.querySelector('.season-select').children];
+      if (seasonList.length) {
+        seasonList.forEach((item) => {
+          let button = item.children[0];
+          if (selection.includes(button.getAttribute('name'))) {
+            button.classList.add('selected');
+          } else {
+            button.classList.remove('selected');
+          }
+        });
+      }
+    }
+  }, [selection]);
+
   // TODO: This and replaceSeasonArray should be merged.
   const createSeasonArray = (num) => {
     // Generates array of buttons to select seasons from.
@@ -68,6 +84,7 @@ const Content = () => {
       <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
         <button
           name={`Season ${i}`}
+          id={`season-${i}-button`}
           onClick={() => setSelection([`Season ${i}`])}
         >
           {i}
@@ -140,19 +157,23 @@ const Content = () => {
             plot={showInfo.Plot}
           />
         )}
-        <ul className="season-select">{seasonSelector}</ul>
-        <button onClick={() => replaceSeasonArray()}>Compare</button>
-        <button onClick={() => setDynamicChart(!dynamicChart)}>
-          Toggle static/dynamic
-        </button>
         {show && (
-          <Chart
-            isLoaded={isLoaded}
-            data={data}
-            error={error}
-            selection={selection}
-            isDynamic={dynamicChart}
-          />
+          <div className="global-chart-wrapper">
+            <div className="chart-control-wrapper">
+              <button onClick={() => replaceSeasonArray()}>Compare</button>
+              <button onClick={() => setDynamicChart(!dynamicChart)}>
+                Toggle static/dynamic
+              </button>
+            </div>
+            <ul className="season-select">{seasonSelector}</ul>
+            <Chart
+              isLoaded={isLoaded}
+              data={data}
+              error={error}
+              selection={selection}
+              isDynamic={dynamicChart}
+            />
+          </div>
         )}
       </div>
     </main>
