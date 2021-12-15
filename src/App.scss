@@ -56,6 +56,7 @@ main {
   & button {
     width: 100%;
     height: 100%;
+    cursor: pointer;
     background: none;
     color: $textColor;
     border-top: 2px solid $borderColor;
@@ -225,5 +226,14 @@ main {
   width: 30%;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  align-self: flex-end;
   padding: 1em;
+
+  & .switch-wrapper {
+    margin: 10px;
+    width: 250px;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

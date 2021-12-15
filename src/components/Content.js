@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
 import ShowInfo from './ShowInfo';
+import ChartControls from './ChartControls/ChartControls';
 
 const Content = () => {
   const [show, setShow] = useState('');
@@ -154,22 +155,10 @@ const Content = () => {
         )}
         {show && (
           <div className="global-chart-wrapper">
-            <div className="chart-control-wrapper">
-              <label htmlFor="Compare seasons">Comparison</label>
-              <input
-                type="checkbox"
-                name="Compare seasons"
-                className="switch"
-                onChange={(e) => setComparison(e.target.checked)}
-              />
-              <label htmlFor="Dynamic chart">Dynamic</label>
-              <input
-                type="checkbox"
-                name="Dynamic chart"
-                className="switch"
-                onChange={(e) => setDynamicChart(e.target.checked)}
-              />
-            </div>
+            <ChartControls
+              setComparison={(e) => setComparison(e)}
+              setDynamicChart={(e) => setDynamicChart(e)}
+            />
             <ul className="season-select">{seasonSelector}</ul>
             <Chart
               isLoaded={isLoaded}

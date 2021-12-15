@@ -24,7 +24,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
       const allPlots = data.map((item) => createDataPlot(item));
       renderChart(allPlots);
     }
-  }, [isLoaded, data, selection]);
+  }, [isLoaded, data]);
 
   useEffect(() => {
     // TODO: Load new data in first time, and hide them after, not unload.
@@ -38,6 +38,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           chart.hide(item.id);
         }
       });
+      chart.tooltip = 'Test';
     }
   }, [selection, chart]);
 
