@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import UserSearch from './UserSearch';
+import UserSearch from './Search/UserSearch';
 import Chart from './Chart';
-import ShowInfo from './ShowInfo';
-import ChartControls from './chart_controls/ChartControls';
+import ShowInfo from './ShowInfo/ShowInfo';
+import ChartControls from './ChartControls/ChartControls';
 
 const Content = () => {
   const [show, setShow] = useState('');
