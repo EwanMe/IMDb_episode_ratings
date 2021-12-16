@@ -23,12 +23,8 @@ const Autocomplete = (props) => {
               props.select(show.imdbID);
               e.currentTarget.parentElement.remove();
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = '#eee')
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = '#fffffc')
-            }
+            onMouseEnter={(e) => e.currentTarget.classList.add('hover')}
+            onMouseLeave={(e) => e.currentTarget.classList.remove('hover')}
           >
             <div className="autocomplete-item-wrapper">
               <img src={show.Poster} className="autocomplete-poster" />

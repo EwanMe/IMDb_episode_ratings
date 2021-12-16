@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import UserSearch from './UserSearch';
 import Chart from './Chart';
 import ShowInfo from './ShowInfo';
-import ChartControls from './ChartControls/ChartControls';
+import ChartControls from './chart_controls/ChartControls';
 
 const Content = () => {
   const [show, setShow] = useState('');
@@ -14,7 +14,6 @@ const Content = () => {
 
   const [selection, setSelection] = useState([]);
   const [seasonSelector, setSeasonSelector] = useState([]);
-  const [arrayIsBtn, setArrayIsBtn] = useState(true);
 
   const [comparison, setComparison] = useState(false);
   const [dynamicChart, setDynamicChart] = useState(false);

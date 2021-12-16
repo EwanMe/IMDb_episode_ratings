@@ -1,5 +1,3 @@
-import './ToggleSwitch.scss';
-
 const ToggleSwitch = ({ label, name, toggle }) => {
   return (
     <div className="switch-wrapper">
