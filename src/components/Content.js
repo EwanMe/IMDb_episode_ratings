@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import UserSearch from './Search/UserSearch';
-import Chart from './Chart';
-import ShowInfo from './ShowInfo/ShowInfo';
-import ChartControls from './ChartControls/ChartControls';
+import Chart from './Chart/Chart';
+import ShowCard from './ShowInfo/ShowCard';
+import ChartControls from './Chart/ChartControls';
 
 const Content = () => {
   const [show, setShow] = useState('');
@@ -141,7 +141,7 @@ const Content = () => {
       <UserSearch getShow={(value) => setShow(value)} />
       <div className="content-wrapper">
         {isLoaded && (
-          <ShowInfo
+          <ShowCard
             title={showInfo.Title}
             poster={showInfo.Poster}
             year={showInfo.Year}
