@@ -91,16 +91,42 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           pattern: colors,
         },
         tooltip: {
+          order: (t1, t2) => t1.id > t2.id,
           format: {
-            title: (episode) =>
-              selection.map((item) => {
-                const episodes = data[item.split(' ').slice(-1) - 1].Episodes;
-                if (episode < episodes.length) return episodes[episode].Title;
-                return 'N/A';
-              }),
-            name: (name) => name,
-            value: (name) => 'Rating: ' + name,
+            title: () => data[0].Title,
+            name: (name, ratio, id, index) =>
+              name +
+              ': ' +
+              data[id.split(' ').slice(-1) - 1].Episodes[index].Title,
           },
+          // contents: (d, defaultTitleFormat, defaultValueFormat, color) => {
+          //   return `
+          //   <table class="c3-tooltip">
+          //     <tr>
+          //       <th colspan="2">${defaultTitleFormat('Episode ')}</th>
+          //     </tr>
+          //     ${d.map((item) => {
+          //       return `
+          //       <tr class="c3-tooltip-name--${item.id}">
+          //         <td>
+          //           <span style="background-color:${color(item.id)}"></span>
+          //           ${
+          //             data[item.id.split(' ').slice(-1) - 1].Episodes[
+          //               item.index
+          //             ].Title
+          //           }
+          //         </td>
+          //         <td class="value">
+          //           ${defaultValueFormat(
+          //             data[item.id.split(' ').slice(-1) - 1].Episodes[
+          //               item.index
+          //             ].imdbRating
+          //           )}
+          //         </td>
+          //       </tr>`;
+          //     })}
+          //   </table>`;
+          // },
         },
       })
     );
