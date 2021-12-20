@@ -10,7 +10,7 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
-  const [showInfo, setShowInfo] = useState(null);
+  const [showInfo, setShowInfo] = useState([]);
 
   const [selection, setSelection] = useState([]);
   const [seasonSelector, setSeasonSelector] = useState([]);
@@ -19,6 +19,7 @@ const Content = () => {
   const [dynamicChart, setDynamicChart] = useState(false);
 
   useEffect(async () => {
+    // Fetch show data from OMDb API.
     if (show.length > 0) {
       let totalSeasons = 1;
       await fetch(
@@ -44,16 +45,18 @@ const Content = () => {
       }
 
       setData(queryData);
-      setSeasonSelector(createSeasonArray(totalSeasons));
+      createSeasonSelector(totalSeasons);
       setIsLoaded(true);
     }
   }, [show]);
 
   useEffect(() => {
+    // Default season selection.
     setSelection(['Season 1']);
   }, [data]);
 
   useEffect(() => {
+    // Update classes for season selector to change styling on selected tabs.
     if (show) {
       const seasonList = [...document.querySelector('.season-select').children];
       if (seasonList.length) {
@@ -70,22 +73,27 @@ const Content = () => {
   }, [selection, seasonSelector]);
 
   useEffect(() => {
-    replaceSeasonArray();
+    createSeasonSelector();
   }, [comparison]);
 
-  // TODO: This and replaceSeasonArray should be merged.
-  const createSeasonArray = (num) => {
-    // Generates array of buttons to select seasons from.
-    let seasons = [];
-    for (let i = 1; i <= num; ++i) {
-      seasons.push(getButton(i));
+  const createSeasonSelector = (numSeasons) => {
+    if (numSeasons === undefined) numSeasons = showInfo.totalSeasons;
+
+    let newArray = [];
+    for (let i = 1; i <= numSeasons; ++i) {
+      if (comparison) {
+        newArray.push(getCheckbox(i));
+      } else {
+        newArray.push(getButton(i));
+      }
     }
-    return seasons;
+
+    setSeasonSelector(newArray);
   };
 
   const getButton = (i) => {
     return (
-      <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
+      <li key={i}>
         <button
           name={`Season ${i}`}
           id={`season-${i}-button`}
@@ -99,7 +107,7 @@ const Content = () => {
 
   const getCheckbox = (i) => {
     return (
-      <li key={i} style={{ listStyle: 'none', display: 'inline' }}>
+      <li key={i}>
         <label htmlFor={`Season ${i}`}>{i}</label>
         <input
           id={`season-${i}-checkbox`}
@@ -109,19 +117,6 @@ const Content = () => {
         />
       </li>
     );
-  };
-
-  const replaceSeasonArray = () => {
-    let newArray = [];
-    for (let i = 1; i <= seasonSelector.length; ++i) {
-      if (comparison) {
-        newArray.push(getCheckbox(i));
-      } else {
-        newArray.push(getButton(i));
-      }
-    }
-
-    setSeasonSelector(newArray);
   };
 
   const handleSeasonCheck = (e, i) => {
