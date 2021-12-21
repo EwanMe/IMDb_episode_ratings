@@ -83,7 +83,6 @@ const Content = () => {
 
   useEffect(() => {
     if (comparison) {
-      console.log(selection);
       selection.forEach((item) => {
         document.querySelector(
           `#season-${item.split(' ').slice(-1)}-checkbox`

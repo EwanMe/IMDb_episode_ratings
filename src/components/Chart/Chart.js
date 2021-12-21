@@ -67,6 +67,12 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
         data: {
           type: 'line',
           columns: plots,
+          hide: true, // Avoids showing all lines on load.
+          onclick: (d) => {
+            const imdbID =
+              data[d.id.split(' ').slice(-1) - 1].Episodes[d.index].imdbID;
+            window.open(`https://www.imdb.com/title/${imdbID}`);
+          },
         },
         axis: {
           y: {
