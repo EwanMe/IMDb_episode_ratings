@@ -53,6 +53,11 @@ const Content = () => {
   useEffect(() => {
     // Default season selection.
     setSelection(['Season 1']);
+
+    if (isLoaded) {
+      setComparison(false);
+      document.querySelector('.switch-checkbox').checked = false;
+    }
   }, [data]);
 
   useEffect(() => {

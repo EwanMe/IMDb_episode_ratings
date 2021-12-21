@@ -7,7 +7,12 @@ const ToggleSwitch = ({ label, name, toggle }) => {
         </label>
       )}
       <label class="switch">
-        <input type="checkbox" name={name} onChange={(e) => toggle(e)} />
+        <input
+          type="checkbox"
+          class="switch-checkbox"
+          name={name}
+          onChange={(e) => toggle(e)}
+        />
         <span class="switch-slider" />
       </label>
     </div>
