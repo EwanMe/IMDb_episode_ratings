@@ -81,6 +81,19 @@ const Content = () => {
     createSeasonSelector();
   }, [comparison]);
 
+  useEffect(() => {
+    if (comparison) {
+      console.log(selection);
+      selection.forEach((item) => {
+        document.querySelector(
+          `#season-${item.split(' ').slice(-1)}-checkbox`
+        ).checked = true;
+      });
+    } else {
+      setSelection((selection) => [selection[0]]);
+    }
+  }, [seasonSelector]);
+
   const createSeasonSelector = (numSeasons) => {
     if (numSeasons === undefined) numSeasons = showInfo.totalSeasons;
 
