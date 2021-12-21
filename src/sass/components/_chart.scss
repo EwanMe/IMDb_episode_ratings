@@ -85,3 +85,7 @@
 #chart .c3-line {
   stroke-width: 2px;
 }
+
+#chart .c3-legend-item-event:hover {
+  cursor: default;
+}

@@ -134,6 +134,13 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           //   </table>`;
           // },
         },
+        legend: {
+          item: {
+            onmouseover: () => null,
+            onmouseout: () => null,
+            onclick: () => null,
+          },
+        },
       })
     );
   };
