@@ -16,7 +16,7 @@
 
   & li {
     width: 50px;
-    margin-bottom: -2px;
+    margin-bottom: -1.5px;
     list-style: none;
     display: inline;
   }
@@ -63,12 +63,21 @@
 #chart {
   position: relative;
   left: -31px;
-}
 
-#chart .c3-line {
-  stroke-width: 2px;
-}
+  & .c3-line {
+    stroke-width: 2px;
+  }
 
-#chart .c3-legend-item-event:hover {
-  cursor: default;
+  & .c3-legend-item-event:hover {
+    cursor: default;
+  }
+
+  & .c3-tooltip {
+    color: $textColor;
+
+    & th {
+      background-color: $bannerColor;
+      color: $backgroundColor;
+    }
+  }
 }
