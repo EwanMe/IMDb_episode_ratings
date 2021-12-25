@@ -153,23 +153,25 @@ const Content = () => {
       <UserSearch getShow={(value) => setShow(value)} />
       <div className="content-wrapper">
         {isLoaded && (
-          <ShowCard
-            title={showInfo.Title}
-            poster={showInfo.Poster}
-            year={showInfo.Year}
-            rating={showInfo.imdbRating}
-            genre={showInfo.Genre}
-            actors={showInfo.Actors}
-            writers={showInfo.Writer}
-            plot={showInfo.Plot}
-          />
-        )}
-        {show && (
-          <div className="global-chart-wrapper">
+          <div className="info-wrapper">
+            <ShowCard
+              title={showInfo.Title}
+              poster={showInfo.Poster}
+              year={showInfo.Year}
+              rating={showInfo.imdbRating}
+              genre={showInfo.Genre}
+              actors={showInfo.Actors}
+              writers={showInfo.Writer}
+              plot={showInfo.Plot}
+            />
             <ChartControls
               setComparison={(e) => setComparison(e)}
               setDynamicChart={(e) => setDynamicChart(e)}
             />
+          </div>
+        )}
+        {show && (
+          <div className="global-chart-wrapper">
             <ul className="season-select">{seasonSelector}</ul>
             <Chart
               isLoaded={isLoaded}

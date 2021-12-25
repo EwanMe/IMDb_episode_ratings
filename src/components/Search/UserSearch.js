@@ -7,7 +7,7 @@ const UserSearch = ({ getShow }) => {
   const [search, setSearch] = useState('');
 
   const [error, setError] = useState(null);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(['']);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {

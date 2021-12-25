@@ -35,17 +35,19 @@ const ShowInfo = ({
           <h1 className="show-title">{title}</h1>
           <div className="global-rating-box">{rating}</div>
         </div>
+        <p className="show-year">({year})</p>
+        <p className="plot-summary">{plot}</p>
+        <div className="show-roles-wrapper">
+          <p className="show-roles">
+            <b>Written by:&ensp;</b> {writers}
+          </p>
+          <p className="show-roles">
+            <b>Starring:&emsp;&ensp;</b> {actors}
+          </p>
+        </div>
         {genre.split(',').map((item) => (
           <Chip text={item.trim()} />
         ))}
-        <p className="show-year">({year})</p>
-        <p className="plot-summary">{plot}</p>
-        <p className="show-roles">
-          <b>Written by:&ensp;</b> {writers}
-        </p>
-        <p className="show-roles">
-          <b>Starring:&emsp;&ensp;</b> {actors}
-        </p>
       </div>
     </div>
   );

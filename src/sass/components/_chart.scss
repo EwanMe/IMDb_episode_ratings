@@ -1,25 +1,8 @@
 .global-chart-wrapper {
   width: 100%;
-  padding-top: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.chart-control-wrapper {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  align-self: flex-end;
-  padding: 1em;
-
-  & .switch-wrapper {
-    margin: 10px;
-    width: 250px;
-    display: flex;
-    justify-content: flex-end;
-  }
 }
 
 .season-select {

@@ -16,7 +16,7 @@ body {
 
 main {
   width: 70%;
-  margin: 3em auto 3em auto;
+  margin: 3em auto;
   display: flex;
   flex: auto;
   flex-direction: column;
@@ -24,13 +24,18 @@ main {
 }
 
 header {
-  background-color: #170055;
-  color: #f4f4f6;
+  background-color: $bannerColor;
+  color: $headerTextColor;
   height: 80px;
   display: flex;
   flex: none;
   justify-content: center;
   align-items: center;
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+  }
 
   & h1 {
     margin: 0;
@@ -46,8 +51,8 @@ footer {
   width: 100%;
   height: 3em;
   margin-top: auto;
-  background-color: #3e00ff;
-  color: #f4f4f6;
+  background-color: $bannerColor;
+  color: $backgroundColor;
 
   & p {
     margin: 0;

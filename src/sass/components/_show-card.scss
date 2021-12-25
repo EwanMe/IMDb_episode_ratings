@@ -1,37 +1,52 @@
-.show-card-wrapper {
-  width: 75%;
-  height: 200px;
+.info-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  padding: 0.5em;
+  justify-content: space-between;
+  margin: 2em 0;
+  width: 80%;
+}
+
+.chart-control-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.show-card-wrapper {
+  max-height: 300px;
+  padding: 0 0.9em;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .show-poster {
-  min-width: 100px;
-  max-width: 100px;
-  max-height: 90%;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .show-info {
-  margin: auto 5%;
+  margin: 0 2em;
   width: 75%;
+  height: 100%;
 }
 
 .show-header {
   display: flex;
-  margin-bottom: 10px;
   flex-direction: row;
   align-items: center;
 }
 
 .global-rating-box {
-  height: 3em;
-  width: 3em;
+  min-height: 45px;
+  min-width: 45px;
   margin-left: 20px;
   color: $backgroundColor;
   border-radius: 10%;
-  font-size: 1em;
+  font-size: 13pt;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +72,7 @@
   display: inline-block;
   margin-right: 0.5em;
   padding: 0.1em 0.7em;
-  border: 2px solid #170055;
+  border: 2px solid $textColor;
   border-radius: 20px;
   text-align: center;
   font-size: 0.9em;
@@ -65,15 +80,22 @@
 
 .show-year {
   margin: 0;
-  font-style: italic;
 }
 
 .plot-summary {
-  margin: 0;
+  margin: 0.7em 0;
   font-size: 0.8em;
+}
+
+.show-roles-wrapper {
+  margin-bottom: 0.7em;
 }
 
 .show-roles {
   margin: 0;
   font-size: 0.7em;
+
+  &:last-child {
+    margin-bottom: 1em;
+  }
 }
