@@ -29,6 +29,7 @@ const UserSearch = ({ getShow }) => {
 
   useEffect(() => {
     getShow(showQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showQuery]);
 
   useEffect(() => {

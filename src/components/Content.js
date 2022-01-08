@@ -18,36 +18,40 @@ const Content = () => {
   const [comparison, setComparison] = useState(false);
   const [dynamicChart, setDynamicChart] = useState(false);
 
-  useEffect(async () => {
-    // Fetch show data from OMDb API.
-    if (show.length > 0) {
-      let totalSeasons = 1;
-      await fetch(
-        `http://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
-      )
-        .then((res) => res.json())
-        .then((result) => {
-          setShowInfo(result);
-          totalSeasons = result.totalSeasons;
-        })
-        .catch((error) => setError(error));
-
-      let queryData = [];
-      for (let i = 1; i <= totalSeasons; ++i) {
+  useEffect(() => {
+    async function fetchData() {
+      // Fetch show data from OMDb API.
+      if (show.length > 0) {
+        let totalSeasons = 1;
         await fetch(
-          `http://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
+          `http://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
         )
           .then((res) => res.json())
           .then((result) => {
-            queryData.push(result);
+            setShowInfo(result);
+            totalSeasons = result.totalSeasons;
           })
           .catch((error) => setError(error));
-      }
 
-      setData(queryData);
-      createSeasonSelector(totalSeasons);
-      setIsLoaded(true);
+        let queryData = [];
+        for (let i = 1; i <= totalSeasons; ++i) {
+          await fetch(
+            `http://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
+          )
+            .then((res) => res.json())
+            .then((result) => {
+              queryData.push(result);
+            })
+            .catch((error) => setError(error));
+        }
+
+        setData(queryData);
+        createSeasonSelector(totalSeasons);
+        setIsLoaded(true);
+      }
     }
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   useEffect(() => {
@@ -58,7 +62,7 @@ const Content = () => {
       setComparison(false);
       document.querySelector('.switch-checkbox').checked = false;
     }
-  }, [data]);
+  }, [data, isLoaded]);
 
   useEffect(() => {
     // Update classes for season selector to change styling on selected tabs.
@@ -75,10 +79,12 @@ const Content = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection, seasonSelector]);
 
   useEffect(() => {
     createSeasonSelector();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comparison]);
 
   useEffect(() => {
@@ -91,6 +97,7 @@ const Content = () => {
     } else {
       setSelection((selection) => [selection[0]]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seasonSelector]);
 
   const createSeasonSelector = (numSeasons) => {
