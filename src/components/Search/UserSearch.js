@@ -12,7 +12,7 @@ const UserSearch = ({ getShow }) => {
 
   useEffect(() => {
     if (search.length > 0) {
-      fetch(`http://www.omdbapi.com/?s=${search}&type=series&apikey=590114db`)
+      fetch(`https://www.omdbapi.com/?s=${search}&type=series&apikey=590114db`)
         .then((res) => res.json())
         .then(
           (result) => {

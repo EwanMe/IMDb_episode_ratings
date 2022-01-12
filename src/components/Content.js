@@ -24,7 +24,7 @@ const Content = () => {
       if (show.length > 0) {
         let totalSeasons = 1;
         await fetch(
-          `http://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
+          `https://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
         )
           .then((res) => res.json())
           .then((result) => {
@@ -36,7 +36,7 @@ const Content = () => {
         let queryData = [];
         for (let i = 1; i <= totalSeasons; ++i) {
           await fetch(
-            `http://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
+            `https://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
           )
             .then((res) => res.json())
             .then((result) => {
