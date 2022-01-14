@@ -34,12 +34,12 @@ const UserSearch = ({ getShow }) => {
 
   useEffect(() => {
     let searchBar = document.querySelector('.search-bar');
-    if (showAutocomplete) {
+    if (showAutocomplete && items[0]) {
       searchBar.classList.add('active-search');
     } else {
       searchBar.classList.remove('active-search');
     }
-  }, [showAutocomplete]);
+  }, [showAutocomplete, items]);
 
   const formatSearch = (string) => {
     return string.trim().split(' ').join('+');
@@ -57,7 +57,7 @@ const UserSearch = ({ getShow }) => {
           setShowAutocomplete(true);
         }}
       />
-      {showAutocomplete && (
+      {showAutocomplete && items[0] && (
         <Autocomplete
           items={items}
           error={error}
