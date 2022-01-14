@@ -35,10 +35,9 @@ const UserSearch = ({ getShow }) => {
   useEffect(() => {
     let searchBar = document.querySelector('.search-bar');
     if (showAutocomplete) {
-      searchBar.style.borderRadius = '27px 27px 0 0';
-      searchBar.style.borderBottom = 'none';
+      searchBar.classList.add('active-search');
     } else {
-      searchBar.removeAttribute('style');
+      searchBar.classList.remove('active-search');
     }
   }, [showAutocomplete]);
 
