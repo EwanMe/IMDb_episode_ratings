@@ -3,12 +3,12 @@ import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-const UserSearch = ({ getShow }) => {
+const UserSearch = ({ getShow, setNoResults }) => {
   const [showQuery, setShowQuery] = useState('');
   const [search, setSearch] = useState('');
 
   const [error, setError] = useState(null);
-  const [items, setItems] = useState(['']);
+  const [items, setItems] = useState([]);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
@@ -51,8 +51,12 @@ const UserSearch = ({ getShow }) => {
       <SearchIcon className="search-icon" />
       <SearchBar
         autoSelect={() => {
-          setShowQuery(items[0].imdbID); // Default value is first item.
-          setShowAutocomplete(false);
+          if (items[0]) {
+            setShowQuery(items[0].imdbID); // Default value is first item.
+            setShowAutocomplete(false);
+          } else {
+            setNoResults(search);
+          }
         }}
         update={(value) => {
           setSearch(formatSearch(value));
