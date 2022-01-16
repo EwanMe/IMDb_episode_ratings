@@ -1,6 +1,7 @@
 import SearchBar from './SearchBar';
 import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
 
 const UserSearch = ({ getShow }) => {
   const [showQuery, setShowQuery] = useState('');
@@ -47,6 +48,7 @@ const UserSearch = ({ getShow }) => {
 
   return (
     <div className="search-wrapper">
+      <SearchIcon className="search-icon" />
       <SearchBar
         autoSelect={() => {
           setShowQuery(items[0].imdbID); // Default value is first item.
