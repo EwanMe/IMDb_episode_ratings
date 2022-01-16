@@ -2,6 +2,7 @@
 
 .search-wrapper {
   width: 40%;
+  height: $searchBarHeight;
   min-width: 260px;
   position: absolute;
 }
@@ -19,7 +20,7 @@
   padding-left: 57px;
   padding-right: 25px;
   width: 100%;
-  height: $searchBarHeight;
+  height: 100%;
   font-size: 1.2em;
   border: 2px solid $borderColor;
   border-radius: 27px;
