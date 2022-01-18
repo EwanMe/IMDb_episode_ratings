@@ -23,7 +23,6 @@ const Content = () => {
     async function fetchData() {
       // Fetch show data from OMDb API.
       if (show && show.length > 0 && !Number.isInteger(show)) {
-        console.log('fetch');
         let totalSeasons = 1;
         await fetch(
           `https://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
