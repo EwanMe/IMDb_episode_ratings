@@ -1,6 +1,48 @@
+@use 'sass:math';
+
 .search-wrapper {
   width: 40%;
+  height: $searchBarHeight;
+  min-width: 260px;
   position: absolute;
+}
+
+.search-icon {
+  position: absolute;
+  font-size: $searchIconSize !important;
+  margin-top: math.div($searchBarHeight - $searchIconSize, 2);
+  margin-left: 25px;
+  color: $textColor;
+  opacity: 0.5;
+}
+
+.search-bar {
+  padding-left: 57px;
+  padding-right: 25px;
+  width: 100%;
+  height: 100%;
+  font-size: 1.2em;
+  border: 2px solid $borderColor;
+  border-radius: 27px;
+  background-color: $backgroundColor;
+  color: $textColor;
+
+  &:focus,
+  &:hover {
+    outline: none;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.5),
+      0 15px 40px rgba(166, 173, 201, 0.2);
+  }
+
+  &::placeholder {
+    //color: $borderColor;
+    opacity: 0.5;
+  }
+}
+
+.active-search {
+  border-radius: 27px 27px 0 0;
+  border-bottom: none;
 }
 
 .autocomplete-wrapper {
@@ -70,22 +112,4 @@
 .autocomplete-year {
   margin: 0;
   font-size: 0.8em;
-}
-
-.search-bar {
-  width: 100%;
-  height: $searchBarWidth;
-  font-size: 1.2em;
-  border: 2px solid $borderColor;
-  border-radius: 27px;
-  padding: 0 27px;
-  background-color: $backgroundColor;
-  color: $textColor;
-
-  &:focus,
-  &:hover {
-    outline: none;
-    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.5),
-      0 15px 40px rgba(166, 173, 201, 0.2);
-  }
 }

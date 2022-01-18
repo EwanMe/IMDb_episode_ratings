@@ -7,10 +7,11 @@
 @import 'components/show-card';
 @import 'components/search-bar';
 @import 'components/chart';
+@import 'components/no-results';
 
 .content-wrapper {
   width: 100%;
-  padding-top: $searchBarWidth;
+  padding-top: $searchBarHeight;
   display: flex;
   flex-direction: column;
   align-items: center;

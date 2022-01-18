@@ -6,6 +6,7 @@ import ChartControls from './Chart/ChartControls';
 
 const Content = () => {
   const [show, setShow] = useState('');
+  const [noResults, setNoResults] = useState('');
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,7 +22,7 @@ const Content = () => {
   useEffect(() => {
     async function fetchData() {
       // Fetch show data from OMDb API.
-      if (show.length > 0) {
+      if (show && show.length > 0 && !Number.isInteger(show)) {
         let totalSeasons = 1;
         await fetch(
           `https://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
@@ -157,8 +158,18 @@ const Content = () => {
 
   return (
     <main role="main">
-      <UserSearch getShow={(value) => setShow(value)} />
+      <UserSearch
+        getShow={(value) => setShow(value)}
+        setNoResults={(searchQuery) => setNoResults(searchQuery)}
+      />
       <div className="content-wrapper">
+        {!show && noResults && (
+          <div className="no-results-wrapper">
+            <h2 className="no-results-message">
+              No results found for: "{noResults}" &#x1F914;
+            </h2>
+          </div>
+        )}
         {isLoaded && (
           <div className="info-wrapper">
             <ShowCard

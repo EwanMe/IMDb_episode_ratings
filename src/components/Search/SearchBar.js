@@ -1,4 +1,4 @@
-const SearchBar = (props) => {
+const SearchBar = ({ update, autoSelect }) => {
   return (
     <input
       className="search-bar"
@@ -7,18 +7,18 @@ const SearchBar = (props) => {
       placeholder="Search for TV series"
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          props.autoSelect(); // Automatically selects most relevant show.
+          autoSelect(); // Automatically selects most relevant show.
           e.target.value = '';
         }
       }}
       onKeyUp={(e) => {
         if (e.key !== 'Enter') {
-          props.update(e.target.value);
+          update(e.target.value);
         }
       }}
       onClick={(e) => {
         if (e.target.value.length !== 0) {
-          props.update(e.target.value);
+          update(e.target.value);
         }
       }}
     />
