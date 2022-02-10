@@ -51,7 +51,7 @@ const UserSearch = ({ getShow, setNoResults }) => {
       <SearchIcon className="search-icon" />
       <SearchBar
         autoSelect={() => {
-          if (items[0]) {
+          if (items[0] && showQuery) {
             setShowQuery(items[0].imdbID); // Default value is first item.
             setShowAutocomplete(false);
           } else {
