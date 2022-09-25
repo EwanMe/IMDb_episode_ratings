@@ -9,7 +9,7 @@ const ToggleSwitch = ({ label, name, toggle }) => {
       <label class="switch">
         <input
           type="checkbox"
-          class="switch-checkbox"
+          className="switch-checkbox"
           name={name}
           onChange={(e) => toggle(e)}
         />

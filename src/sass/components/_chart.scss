@@ -19,6 +19,36 @@
     margin-bottom: -1.5px;
     list-style: none;
     display: inline;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid $borderColor;
+    border-left: 1px solid $borderColor;
+    border-right: 1px solid $borderColor;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+
+    &.selected {
+      background-color: $bannerColor;
+      color: $headerTextColor;
+      font-weight: bolder;
+    }
+
+    & input[type='checkbox'] {
+      display: none;
+    }
+
+    & label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      font-family: $fontStack;
+      cursor: pointer;
+    }
   }
 
   & button {
@@ -27,20 +57,18 @@
     cursor: pointer;
     background: none;
     color: $textColor;
-    border-top: 2px solid $borderColor;
-    border-left: 1px solid $borderColor;
-    border-right: 1px solid $borderColor;
-    border-bottom: none;
-    border-radius: 10px 10px 0 0;
-    padding: 1em;
+    border: none;
+    padding: 0;
     outline: none;
+    font-size: 1rem;
+    font-family: $fontStack;
   }
 
-  & :first-child button {
+  & li:first-child {
     border-left: 2px solid $borderColor;
   }
 
-  & :last-child button {
+  & li:last-child {
     border-right: 2px solid $borderColor;
   }
 
