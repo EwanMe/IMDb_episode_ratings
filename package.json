@@ -1,5 +1,5 @@
 {
-  "name": "series_ratings",
+  "name": "imdb_episode_ratings",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

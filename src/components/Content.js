@@ -41,6 +41,9 @@ const Content = () => {
           )
             .then((res) => res.json())
             .then((result) => {
+              if (result.Response === 'False') {
+                return;
+              }
               queryData.push(result);
             })
             .catch((error) => setError(error));
