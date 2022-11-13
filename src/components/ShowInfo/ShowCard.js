@@ -30,7 +30,7 @@ const ShowInfo = ({
           </p>
         </div>
         {genre.split(',').map((item) => (
-          <Chip text={item.trim()} />
+          <Chip key={item} text={item.trim()} />
         ))}
       </div>
     </div>

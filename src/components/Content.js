@@ -41,6 +41,9 @@ const Content = () => {
           )
             .then((res) => res.json())
             .then((result) => {
+              if (result.Response === 'False') {
+                return;
+              }
               queryData.push(result);
             })
             .catch((error) => setError(error));
@@ -91,11 +94,16 @@ const Content = () => {
   useEffect(() => {
     if (comparison) {
       selection.forEach((item) => {
-        document.querySelector(
-          `#season-${item.split(' ').slice(-1)}-checkbox`
-        ).checked = true;
+        const i = item.split(' ').slice(-1);
+        document.querySelector(`#season-${i}-checkbox`).checked = true;
+        document.getElementById(`season-${i}-tab`).classList.add('selected');
       });
     } else {
+      // Remove styling from selected tabs
+      Array.from(document.getElementsByClassName('season-tab')).forEach(
+        (elem) => elem.classList.remove('selected')
+      );
+
       setSelection((selection) => [selection[0]]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,18 +115,18 @@ const Content = () => {
     let newArray = [];
     for (let i = 1; i <= numSeasons; ++i) {
       if (comparison) {
-        newArray.push(getCheckbox(i));
+        newArray.push(createCheckbox(i));
       } else {
-        newArray.push(getButton(i));
+        newArray.push(createButton(i));
       }
     }
 
     setSeasonSelector(newArray);
   };
 
-  const getButton = (i) => {
+  const createButton = (i) => {
     return (
-      <li key={i}>
+      <li key={i} className={`season-${i}-tab`}>
         <button
           name={`Season ${i}`}
           id={`season-${i}-button`}
@@ -130,21 +138,25 @@ const Content = () => {
     );
   };
 
-  const getCheckbox = (i) => {
+  const createCheckbox = (i) => {
     return (
-      <li key={i}>
-        <label htmlFor={`Season ${i}`}>{i}</label>
-        <input
-          id={`season-${i}-checkbox`}
-          name={`Season ${i}`}
-          type="checkbox"
-          onChange={(e) => handleSeasonCheck(e, i)}
-        />
+      <li key={i} id={`season-${i}-tab`} className="season-tab">
+        <label>
+          <input
+            id={`season-${i}-checkbox`}
+            name={`Season ${i}`}
+            type="checkbox"
+            onChange={(e) => handleSeasonCheck(e, i)}
+          />
+          {i}
+        </label>
       </li>
     );
   };
 
   const handleSeasonCheck = (e, i) => {
+    document.getElementById(`season-${i}-tab`).classList.toggle('selected');
+
     if (e.currentTarget.checked) {
       if (!selection.includes(`Season ${i}`)) {
         setSelection((selection) => [...selection, `Season ${i}`].sort());

@@ -6,14 +6,14 @@ const ToggleSwitch = ({ label, name, toggle }) => {
           {label}
         </label>
       )}
-      <label class="switch">
+      <label className="switch">
         <input
           type="checkbox"
-          class="switch-checkbox"
+          className="switch-checkbox"
           name={name}
           onChange={(e) => toggle(e)}
         />
-        <span class="switch-slider" />
+        <span className="switch-slider" />
       </label>
     </div>
   );
