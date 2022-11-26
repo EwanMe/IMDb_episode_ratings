@@ -4,8 +4,10 @@ import imdb.models
 import pandas as pd
 import urllib.request
 
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseServerError
 from imdb.datasets import dataset_details
-from django.http import HttpResponse
+from imdb.models import Title, Episode, Rating
+from imdb.serializers import TitleInfoSerializer, TitleSerializer
 from io import TextIOWrapper
 
 
@@ -44,3 +46,13 @@ def download_title_basics(_):
         download_entries(getattr(imdb.models, model), details)
 
     return HttpResponse()
+
+
+def get_show(_, id):
+    show = Title.objects.select_related("rating").filter(tconst=id)
+
+    if show:
+        serialzer = TitleInfoSerializer(show, many=True)
+        return JsonResponse(serialzer.data, safe=False)
+    else:
+        raise Http404(f"No TV show with ID: {id}")
