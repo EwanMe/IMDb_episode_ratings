@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Title(models.Model):
-    tconst = models.CharField(primary_key=True, max_length=64, db_index=True)
+    tconst = models.CharField(primary_key=True, max_length=64)
     titleType = models.CharField(max_length=32)
     primaryTitle = models.CharField(max_length=1024)
     originalTitle = models.CharField(max_length=1024)
@@ -18,9 +18,10 @@ class Title(models.Model):
 
 
 class Episode(models.Model):
-    tconst = models.CharField(primary_key=True, max_length=32)
+    tconst = models.OneToOneField(
+        Title, primary_key=True, on_delete=models.CASCADE, max_length=32, related_name="episode")
     parentTconst = models.ForeignKey(
-        Title, on_delete=models.CASCADE, db_constraint=False)
+        Title, on_delete=models.CASCADE, db_constraint=False, related_name="seriesEpisodes")
     seasonNumber = models.IntegerField(blank=True, null=True)
     episodeNumber = models.IntegerField(blank=True, null=True)
 
