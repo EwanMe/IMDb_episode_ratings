@@ -1,4 +1,5 @@
 from pathlib import Path
+from os import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -66,11 +67,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'imdb',
-        'HOST': 'localhost',
-        'OPTIONS': {
-            'service': 'imdb_service',
-        }
+        'HOST': environ.get('POSTGRES_HOST'),
+        'NAME': environ.get('POSTGRES_DB'),
+        'USER': environ.get('POSTGRES_USER'),
+        'PASSWORD': environ.get('POSTGRES_PASSWORD'),
+        'PORT': environ.get('POSTGRES_PORT')
     }
 }
 
