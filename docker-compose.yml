@@ -16,6 +16,10 @@ services:
       - db
     env_file:
       - .env
+    volumes:
+      - ./backend:/django:rw
+      - /tmp/imdb_datasets:/tmp/imdb_datasets:rw
+    working_dir: /django
     command: [
         './wait-for-it.sh',
         'db:5432',
@@ -29,6 +33,7 @@ services:
   db:
     container_name: postgres
     image: postgres:latest
+    shm_size: 1g
     env_file:
       - .env
     ports:

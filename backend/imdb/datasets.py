@@ -5,13 +5,10 @@ dataset_details = {
         "cols": {
             "tconst": str,
             "titleType": str,
-            "primaryType": str,
-            "originalTitle": str,
-            "isAdult": bool,
+            "primaryTitle": str,
             "startYear": int,
             "endYear": int,
-            "runtimeMinutes": int,
-            "genres": list
+            "genres": list,
         },
     },
     "Episode": {
@@ -21,7 +18,7 @@ dataset_details = {
             "tconst": str,
             "parentTconst": str,
             "seasonNumber": int,
-            "episodeNumber": int
+            "episodeNumber": int,
         },
     },
     "Rating": {
@@ -30,7 +27,26 @@ dataset_details = {
         "cols": {
             "tconst": str,
             "averageRating": float,
-            "numVotes": int
+            "numVotes": int,
         }
-    }
+    },
+    "Person": {
+        "url": "https://datasets.imdbws.com/name.basics.tsv.gz",
+        "converters": None,
+        "cols": {
+            "nconst": str,
+            "primaryName": str,
+        }
+    },
+    "Role": {
+        "url": "https://datasets.imdbws.com/title.principals.tsv.gz",
+        "converters": None,
+        "cols": {
+            "id": None,
+            "tconst": str,
+            "ordering": int,
+            "nconst": str,
+            "category": str,
+        }
+    },
 }
