@@ -18,7 +18,7 @@ class Episode(models.Model):
     tconst = models.OneToOneField(
         to=Title, primary_key=True, on_delete=models.CASCADE, max_length=32, related_name="episode")
     parentTconst = models.ForeignKey(
-        to=Title, on_delete=models.CASCADE, max_length=32, related_name="seriesEpisodes")
+        to=Title, on_delete=models.CASCADE, max_length=32, related_name="series")
     seasonNumber = models.IntegerField(blank=True, null=True)
     episodeNumber = models.IntegerField(blank=True, null=True)
 
@@ -46,10 +46,10 @@ class Person(models.Model):
 
 class Role(models.Model):
     tconst = models.ForeignKey(
-        to=Title, on_delete=models.CASCADE, max_length=32)
+        to=Title, on_delete=models.CASCADE, max_length=32, related_name="title_roles")
     ordering = models.IntegerField()
     nconst = models.ForeignKey(
-        to=Person, on_delete=models.CASCADE, max_length=32)
+        to=Person, on_delete=models.CASCADE, max_length=32, related_name="role")
     category = models.CharField(max_length=1024)
 
     def __str__(self):

@@ -83,11 +83,7 @@ def download_entries(Model, details):
         print(df)
 
         def eval_type(val, constructor):
-            try:
-                return None if val is None else constructor(val)
-            except Exception as e:
-                print(constructor, val, e)
-                raise Exception("Holy fuck")
+            return None if val is None else constructor(val)
 
         entries = list(
             map(
@@ -105,8 +101,6 @@ def download_entries(Model, details):
 def download_title_basics(_):
     try:
         for model, details in dataset_details.items():
-            # if model in ["Title", "Episode", "Rating", "Person"]:
-            #     continue
             download_entries(getattr(imdb.models, model), details)
     except Exception as e:
         print(e)
@@ -115,20 +109,22 @@ def download_title_basics(_):
     return HttpResponse()
 
 
-# def get_show(_, id):
-#     show = Title.objects.select_related(
-#         "rating"
-#     ).filter(
-#         tconst=id
-#     ).filter(
-#         titleType="tvSeries"
-#     )
-
-#     if show:
-#         serialzer = TitleRatingSerializer(show, many=True)
-#         return JsonResponse(serialzer.data, safe=False)
-#     else:
-#         raise Http404(f"No TV show with ID: {id}")
+def get_show(_, id):
+    show = Title.objects.select_related(
+        "rating"
+    ).prefetch_related(
+        "title_roles__nconst"
+    ).filter(
+        tconst=id
+    ).filter(
+        titleType="tvSeries"
+    )
+    
+    if show:
+        serialzer = TitleRatingSerializer(show, many=True)
+        return JsonResponse(serialzer.data, safe=False)
+    else:
+        raise Http404(f"No TV show with ID: {id}")
 
 
 def get_season_ratings(_, id, season):
