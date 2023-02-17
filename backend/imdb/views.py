@@ -109,8 +109,8 @@ def download_entries(Model, details):
             
             df_mem = df.memory_usage(deep=True).sum() / 1024**3
             avail_mem = psutil.virtual_memory().total / 1024**3
-            # print(f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB")
-            if df_mem > avail_mem / 10:
+            print(f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB")
+            if df_mem > avail_mem * 0.75:
                 store_dataframe(df, Model, details)
                 df = df.iloc[0:0]
 
