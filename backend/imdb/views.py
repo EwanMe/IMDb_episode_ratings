@@ -3,12 +3,13 @@ import gzip
 import imdb.models
 import os
 import pandas as pd
+import psutil
 import time
 import urllib.request
 
 from django.http import HttpResponse, Http404, JsonResponse, HttpResponseServerError
 from imdb.datasets import dataset_details
-from imdb.models import *
+from imdb.models import Title, Episode, Rating, Person, Role
 from imdb.serializers import *
 
 
@@ -59,6 +60,27 @@ def prune_datasets(Model, df):
     return df
 
 
+def store_dataframe(df, Model, details):
+    df = df.replace({"\\N": None})
+    df = prune_datasets(Model, df)
+    print(df)
+
+    def eval_type(val, constructor):
+        return None if val is None else constructor(val)
+
+    entries = list(
+        map(
+            lambda cols: Model(
+                *[eval_type(cols[i], constructor)
+                    for i, constructor in enumerate(details["cols"].values())]
+            ),
+            df.values.tolist()
+        )
+    )
+    Model.objects.bulk_create(
+        entries, batch_size=10000, ignore_conflicts=True)
+
+
 def download_entries(Model, details):
     tmp_file = f"/tmp/imdb_datasets/{details['url'].split('/')[-1]}"
     timeout = 7 * 24 * 60 * 60  # 1 week
@@ -68,34 +90,29 @@ def download_entries(Model, details):
 
     with gzip.open(tmp_file, "r") as tsv_file:
         print(f"Converting file {tmp_file} to dataframe...")
-        df = pd.read_csv(
+        chunksize = 10 ** 6
+        chunks = pd.read_csv(
             tsv_file,
             delimiter="\t",
             quoting=csv.QUOTE_NONE,
-            dtype=str,
+            dtype=str if not details["converters"] else None,
+            chunksize=chunksize,
             converters=details["converters"],
             usecols=details["cols"].keys() if Model != Role else list(
                 details["cols"].keys())[1:]
         )
+        
+        df = pd.DataFrame()
 
-        df = df.replace({"\\N": None})
-        df = prune_datasets(Model, df)
-        print(df)
-
-        def eval_type(val, constructor):
-            return None if val is None else constructor(val)
-
-        entries = list(
-            map(
-                lambda cols: Model(
-                    *[eval_type(cols[i], constructor)
-                        for i, constructor in enumerate(details["cols"].values())]
-                ),
-                df.values.tolist()
-            )
-        )
-        Model.objects.bulk_create(
-            entries, batch_size=10000, ignore_conflicts=True)
+        for chunk in chunks:
+            df = pd.concat([df, pd.DataFrame(chunk)], ignore_index=True)
+            
+            df_mem = df.memory_usage(deep=True).sum() / 1024**3
+            avail_mem = psutil.virtual_memory().total / 1024**3
+            # print(f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB")
+            if df_mem > avail_mem / 10:
+                store_dataframe(df, Model, details)
+                df = df.iloc[0:0]
 
 
 def download_title_basics(_):
