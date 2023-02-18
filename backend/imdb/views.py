@@ -101,18 +101,22 @@ def download_entries(Model, details):
             usecols=details["cols"].keys() if Model != Role else list(
                 details["cols"].keys())[1:]
         )
-        
+
         df = pd.DataFrame()
 
-        for chunk in chunks:
+        for i, chunk in enumerate(chunks):
             df = pd.concat([df, pd.DataFrame(chunk)], ignore_index=True)
-            
+
             df_mem = df.memory_usage(deep=True).sum() / 1024**3
             avail_mem = psutil.virtual_memory().total / 1024**3
             print(f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB")
-            if df_mem > avail_mem * 0.75:
+
+            # Store and reset df if next chunk supasses allowed memory usage
+            if df_mem + df_mem/(i+1) > avail_mem * 0.75:
                 store_dataframe(df, Model, details)
                 df = df.iloc[0:0]
+
+        store_dataframe(df, Model, details)
 
 
 def download_title_basics(_):
