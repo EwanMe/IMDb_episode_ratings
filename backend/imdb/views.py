@@ -119,10 +119,12 @@ def download_entries(Model, details):
         store_dataframe(df, Model, details)
 
 
-def download_title_basics(_):
+def download_title_basics(_, dataset=None):
+    dataset = str(dataset).lower().capitalize()
     try:
         for model, details in dataset_details.items():
-            download_entries(getattr(imdb.models, model), details)
+            if dataset and dataset == model:
+                download_entries(getattr(imdb.models, model), details)
     except Exception as e:
         print(e)
         return HttpResponseServerError()
@@ -140,7 +142,7 @@ def get_show(_, id):
     ).filter(
         titleType="tvSeries"
     )
-    
+
     if show:
         serialzer = TitleRatingSerializer(show, many=True)
         return JsonResponse(serialzer.data, safe=False)
