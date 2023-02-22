@@ -16,24 +16,43 @@ class Title(models.Model):
 
 class Episode(models.Model):
     tconst = models.OneToOneField(
-        to=Title, primary_key=True, on_delete=models.CASCADE, max_length=32, related_name="episode")
+        to=Title,
+        primary_key=True,
+        on_delete=models.CASCADE,
+        max_length=32,
+        related_name="episode",
+    )
     parentTconst = models.ForeignKey(
-        to=Title, on_delete=models.CASCADE, max_length=32, related_name="series")
+        to=Title,
+        on_delete=models.CASCADE,
+        max_length=32,
+        related_name="series",
+    )
     seasonNumber = models.IntegerField(blank=True, null=True)
     episodeNumber = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return "%s in %s s%se%s" % (self.tconst, self.parentTconst, self.seasonNumber, self.episodeNumber)
+        return "%s in %s s%se%s" % (
+            self.tconst,
+            self.parentTconst,
+            self.seasonNumber,
+            self.episodeNumber,
+        )
 
 
 class Rating(models.Model):
     tconst = models.OneToOneField(
-        to=Title, primary_key=True, on_delete=models.CASCADE, max_length=32)
+        to=Title, primary_key=True, on_delete=models.CASCADE, max_length=32
+    )
     averageRating = models.FloatField()
     numVotes = models.IntegerField()
 
     def __str__(self):
-        return "%s rated %s (%s votes)" % (self.tconst, self.averageRating, self.numVotes)
+        return "%s rated %s (%s votes)" % (
+            self.tconst,
+            self.averageRating,
+            self.numVotes,
+        )
 
 
 class Person(models.Model):
@@ -46,10 +65,15 @@ class Person(models.Model):
 
 class Role(models.Model):
     tconst = models.ForeignKey(
-        to=Title, on_delete=models.CASCADE, max_length=32, related_name="title_roles")
+        to=Title,
+        on_delete=models.CASCADE,
+        max_length=32,
+        related_name="title_roles",
+    )
     ordering = models.IntegerField()
     nconst = models.ForeignKey(
-        to=Person, on_delete=models.CASCADE, max_length=32, related_name="role")
+        to=Person, on_delete=models.CASCADE, max_length=32, related_name="role"
+    )
     category = models.CharField(max_length=1024)
 
     def __str__(self):

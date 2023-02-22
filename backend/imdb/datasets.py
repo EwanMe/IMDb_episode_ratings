@@ -28,7 +28,7 @@ dataset_details = {
             "tconst": str,
             "averageRating": float,
             "numVotes": int,
-        }
+        },
     },
     "Person": {
         "url": "https://datasets.imdbws.com/name.basics.tsv.gz",
@@ -36,7 +36,7 @@ dataset_details = {
         "cols": {
             "nconst": str,
             "primaryName": str,
-        }
+        },
     },
     "Role": {
         "url": "https://datasets.imdbws.com/title.principals.tsv.gz",
@@ -47,6 +47,6 @@ dataset_details = {
             "ordering": int,
             "nconst": str,
             "category": str,
-        }
+        },
     },
 }
