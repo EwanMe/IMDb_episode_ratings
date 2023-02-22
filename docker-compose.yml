@@ -10,6 +10,7 @@ services:
   backend:
     container_name: backend
     build: ./backend/
+    mem_limit: ${DJANGO_MEM_LIMIT}
     ports:
       - 8000:8000
     depends_on:

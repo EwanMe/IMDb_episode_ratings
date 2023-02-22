@@ -3,7 +3,7 @@ import gzip
 import imdb.models
 import os
 import pandas as pd
-import psutil
+import subprocess
 import time
 import urllib.request
 
@@ -38,7 +38,11 @@ def prune_datasets(Model: Model, df: pd.DataFrame):
     if Model == Episode:
         tconsts = list(Title.objects.values_list("tconst", flat=True))
 
-        df = df.drop(df[~df["parentTconst"].isin(tconsts)].index)
+        df = df.drop(
+            df[
+                ~df["parentTconst"].isin(tconsts) | ~df["tconst"].isin(tconsts)
+            ].index
+        )
 
         # Remove titles with no related episodes
         # Mainly targeting standalone titles of type "short",
@@ -109,6 +113,7 @@ def store_dataframe(df: pd.DataFrame, Model: Model, details: dict[str, any]):
         )
     )
 
+    print(f"Storing rows in {Model}...")
     Model.objects.bulk_create(entries, batch_size=10000, ignore_conflicts=True)
 
 
@@ -172,13 +177,17 @@ def populate_table(Model: Model, details: dict[str, any]):
             df = pd.concat([df, pd.DataFrame(chunk)], ignore_index=True)
 
             df_mem = df.memory_usage(deep=True).sum() / 1024**3
-            avail_mem = psutil.virtual_memory().total / 1024**3
+            avail_mem = int(
+                subprocess.check_output(
+                    ["cat", "/sys/fs/cgroup/memory.max"]
+                ).decode("utf-8")
+            ) / (1024**3)
             print(
                 f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB"
             )
 
             # Store and reset df if next chunk supasses allowed memory usage
-            if df_mem + df_mem / (i + 1) > avail_mem * 0.75:
+            if df_mem + df_mem / (i + 1) > avail_mem * 0.5:
                 store_dataframe(df, Model, details)
                 df = df.iloc[0:0]
 
