@@ -113,7 +113,7 @@ def store_dataframe(df: pd.DataFrame, Model: Model, details: dict[str, any]):
         )
     )
 
-    print(f"Storing rows in {Model}...")
+    print("Storing rows in database...")
     Model.objects.bulk_create(entries, batch_size=10000, ignore_conflicts=True)
 
 
@@ -155,9 +155,11 @@ def get_memory_limit():
         float: available memory in GiB
     """
 
-    output = subprocess.check_output(
-        ["stat", "-fc", "%T", "/sys/fs/cgroup/"]
-    ).decode("utf-8")
+    output = (
+        subprocess.check_output(["stat", "-fc", "%T", "/sys/fs/cgroup/"])
+        .decode("utf-8")
+        .strip()
+    )
 
     if output == "tmpfs":
         path = "/sys/fs/cgroup/memory/memory.limit_in_bytes"
