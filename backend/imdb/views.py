@@ -144,6 +144,34 @@ def get_dataset(details: dict[str, any]):
     return tmp_file
 
 
+def get_memory_limit():
+    """
+    Retrieves memory limit of system in gibibytes
+
+    Raises:
+        Exception: if cgroup version couldn't be determined
+
+    Returns:
+        float: available memory in GiB
+    """
+
+    output = subprocess.check_output(
+        ["stat", "-fc", "%T", "/sys/fs/cgroup/"]
+    ).decode("utf-8")
+
+    if output == "tmpfs":
+        path = "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+    elif output == "cgroup2fs":
+        path = "/sys/fs/cgroup/memory.max"
+    else:
+        raise Exception("Could not determine cgroup version")
+
+    avail_mem = int(subprocess.check_output(["cat", path]).decode("utf-8")) / (
+        1024**3
+    )
+    return avail_mem
+
+
 def populate_table(Model: Model, details: dict[str, any]):
     """
     download tsv dataset, convert to dataframe, and insert into database
@@ -177,11 +205,7 @@ def populate_table(Model: Model, details: dict[str, any]):
             df = pd.concat([df, pd.DataFrame(chunk)], ignore_index=True)
 
             df_mem = df.memory_usage(deep=True).sum() / 1024**3
-            avail_mem = int(
-                subprocess.check_output(
-                    ["cat", "/sys/fs/cgroup/memory.max"]
-                ).decode("utf-8")
-            ) / (1024**3)
+            avail_mem = get_memory_limit()
             print(
                 f"Dataframe used {round(df_mem, 2)}GB/{round(avail_mem, 2)}GB"
             )
@@ -201,7 +225,7 @@ def populate_database(_, table: str = None):
 
     Args:
         _:                      unused request
-        table (str, optional):  _description_. defaults to None.
+        table (str, optional):  table to populate. defaults to None.
 
     Raises:
         Http404: if table not found
