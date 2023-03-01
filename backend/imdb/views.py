@@ -285,12 +285,11 @@ def get_show(_, id: str):
 
 def get_episode_ratings(_, id: str):
     """
-    get ratings for all episodes of a tvseries season
+    get ratings for all episodes of a tvseries grouped by season
 
     Args:
         _:              unused request
         id (str):       tconst format id of tvseries
-        season (int):   season number
 
     Raises:
         Http404: if title not found
@@ -304,7 +303,7 @@ def get_episode_ratings(_, id: str):
     except Title.MultipleObjectsReturned:
         return HttpResponseServerError("Multiple shows with same ID found.")
     except Title.DoesNotExist:
-        return Http404(f"Show with ID: {id} not found.")
+        raise Http404(f"Show with ID: {id} not found.")
 
     if show:
         serializer = SeriesEpisodeRatingsSerializer(show)
