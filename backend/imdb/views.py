@@ -16,7 +16,10 @@ from django.http import (
 )
 from imdb.datasets import dataset_details
 from imdb.models import Title, Episode, Rating, Person, Role
-from imdb.serializers import TitleRatingSerializer, EpisodeListEntrySerializer
+from imdb.serializers import (
+    TitleRatingSerializer,
+    SeriesEpisodeRatingsSerializer,
+)
 
 
 def prune_datasets(Model: Model, df: pd.DataFrame):
@@ -280,7 +283,7 @@ def get_show(_, id: str):
         raise Http404(f"No TV show with ID: {id}")
 
 
-def get_season_ratings(_, id: str, season: int):
+def get_episode_ratings(_, id: str):
     """
     get ratings for all episodes of a tvseries season
 
@@ -296,17 +299,15 @@ def get_season_ratings(_, id: str, season: int):
         JsonResponse: season ratings
     """
 
-    episodes = (
-        Episode.objects.filter(
-            parentTconst=id,
-        )
-        .filter(seasonNumber=season)
-        .order_by("episodeNumber")
-        .select_related("parentTconst")
-    )
+    try:
+        show = Title.objects.get(tconst=id)
+    except Title.MultipleObjectsReturned:
+        return HttpResponseServerError("Multiple shows with same ID found.")
+    except Title.DoesNotExist:
+        return Http404(f"Show with ID: {id} not found.")
 
-    if episodes:
-        serializer = EpisodeListEntrySerializer(episodes, many=True)
+    if show:
+        serializer = SeriesEpisodeRatingsSerializer(show)
         return JsonResponse(serializer.data, safe=False)
     else:
         raise Http404(f"No TV show with ID: {id}")

@@ -1,3 +1,4 @@
+from django.db.models import Max
 from imdb.models import Title, Episode, Rating, Role, Person
 from rest_framework import serializers
 
@@ -11,10 +12,7 @@ class TitleSerializer(serializers.ModelSerializer):
 class EpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Episode
-        fields = (
-            "tconst",
-            "episodeNumber",
-        )
+        fields = ("tconst", "episodeNumber", "seasonNumber")
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -84,7 +82,7 @@ class EpisodeRatingSerializer(TitleRatingSerializer):
         )
 
 
-class EpisodeListEntrySerializer(EpisodeSerializer):
+class EpisodeListSerializer(EpisodeSerializer):
     tconst = EpisodeRatingSerializer()
 
     def to_representation(self, instance):
@@ -94,3 +92,23 @@ class EpisodeListEntrySerializer(EpisodeSerializer):
             represenation[key] = title_represenation[key]
 
         return represenation
+
+
+class SeriesEpisodeRatingsSerializer(serializers.Serializer):
+    seasons = serializers.SerializerMethodField()
+
+    def get_seasons(self, instance):
+        numSeasons = Episode.objects.filter(
+            parentTconst=instance.tconst
+        ).aggregate(Max("seasonNumber"))["seasonNumber__max"]
+        print(numSeasons)
+        return [
+            EpisodeListSerializer(
+                Episode.objects.filter(parentTconst=instance.tconst)
+                .filter(seasonNumber=season)
+                .order_by("episodeNumber")
+                .select_related("parentTconst"),
+                many=True,
+            ).data
+            for season in range(1, numSeasons + 1)
+        ]
