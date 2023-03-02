@@ -1,12 +1,16 @@
 version: '3.9'
 
 services:
-  # frontend:
-  #   image: node:19.2-alpine
-  #   container_name: frontend
-  #   ports:
-  #     - 3000:3000
-  #   command: npm start
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    container_name: frontend
+    stdin_open: true
+    volumes:
+       - ./frontend:/frontend
+       - /frontend/node_modules
   backend:
     container_name: backend
     build: ./backend/
