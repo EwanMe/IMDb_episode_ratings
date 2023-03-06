@@ -32,7 +32,9 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
   }, [isDynamic, chart]);
 
   const createDataPlot = (data) => {
-    const ratings = data.map((ep) => ep.averageRating);
+    const ratings = data.map((ep) =>
+      ep.averageRating ? ep.averageRating : null
+    );
     ratings.unshift('Season ' + data[0].seasonNumber); // Data array starts with label name
     return ratings;
   };

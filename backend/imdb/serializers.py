@@ -63,8 +63,9 @@ class TitleRatingSerializer(serializers.ModelSerializer):
         represenation = super().to_representation(instance)
 
         rating_representation = represenation.pop("rating")
-        for key in rating_representation:
-            represenation[key] = rating_representation[key]
+        if rating_representation is not None:
+            for key in rating_representation:
+                represenation[key] = rating_representation[key]
 
         return represenation
 
@@ -101,7 +102,7 @@ class SeriesEpisodeRatingsSerializer(serializers.Serializer):
         numSeasons = Episode.objects.filter(
             parentTconst=instance.tconst
         ).aggregate(Max("seasonNumber"))["seasonNumber__max"]
-        print(numSeasons)
+
         return [
             EpisodeListSerializer(
                 Episode.objects.filter(parentTconst=instance.tconst)
