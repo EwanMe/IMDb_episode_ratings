@@ -7,7 +7,7 @@ import subprocess
 import time
 import urllib.request
 
-from django.db.models import Model
+from django.db.models import F, Model
 from django.http import (
     HttpResponse,
     Http404,
@@ -18,6 +18,7 @@ from imdb.datasets import dataset_details
 from imdb.models import Title, Episode, Rating, Person, Role
 from imdb.serializers import (
     TitleRatingSerializer,
+    TitleFullSerializer,
     SeriesEpisodeRatingsSerializer,
 )
 
@@ -277,7 +278,7 @@ def get_show(_, id: str):
     )
 
     if show:
-        serialzer = TitleRatingSerializer(show, many=True)
+        serialzer = TitleFullSerializer(show, many=True)
         return JsonResponse(serialzer.data, safe=False)
     else:
         raise Http404(f"No TV show with ID: {id}")
@@ -310,3 +311,17 @@ def get_episode_ratings(_, id: str):
         return JsonResponse(serializer.data, safe=False)
     else:
         raise Http404(f"No TV show with ID: {id}")
+
+
+def get_free_search(request):
+    query = request.GET.get("q")
+    shows = (
+        Title.objects.select_related("rating")
+        .filter(primaryTitle__icontains=query)
+        .order_by(F("rating__numVotes").desc(nulls_last=True))
+    )[:10]
+    serializer = TitleRatingSerializer(shows, many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+# select tconst, "titleType", "primaryTitle", "startYear", "averageRating" from imdb_title left join imdb_rating on tconst=tconst_id where "titleType"='tvSeries' and lower("primaryTitle") like '%%' order by "numVotes" desc nulls last limit 20;

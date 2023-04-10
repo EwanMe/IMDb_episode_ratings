@@ -13,4 +13,5 @@ urlpatterns = [
     path("download/", views.populate_database, name="download_all"),
     path("show/<str:id>/", views.get_show),
     path("ratings/<str:id>/", views.get_episode_ratings),
+    path("search/", views.get_free_search),
 ]

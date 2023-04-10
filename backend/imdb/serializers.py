@@ -45,6 +45,24 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class TitleRatingSerializer(serializers.ModelSerializer):
     rating = RatingSerializer()
+
+    class Meta:
+        model = Title
+        fields = ("tconst", "primaryTitle", "startYear", "endYear", "rating")
+
+    def to_representation(self, instance):
+        represenation = super().to_representation(instance)
+
+        rating_representation = represenation.pop("rating")
+        if rating_representation is not None:
+            for key in rating_representation:
+                represenation[key] = rating_representation[key]
+
+        return represenation
+
+
+class TitleFullSerializer(serializers.ModelSerializer):
+    rating = RatingSerializer()
     title_roles = serializers.SerializerMethodField()
 
     class Meta:
@@ -74,7 +92,7 @@ class TitleRatingSerializer(serializers.ModelSerializer):
         return RoleSerializer(queryset, many=True).data
 
 
-class EpisodeRatingSerializer(TitleRatingSerializer):
+class EpisodeRatingSerializer(TitleFullSerializer):
     class Meta:
         model = Title
         fields = (

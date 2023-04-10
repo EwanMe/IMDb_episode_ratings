@@ -15,31 +15,40 @@ const Autocomplete = ({ items, exists, select }) => {
   return (
     <div className="autocomplete-wrapper">
       <ul className="autocomplete-list">
-        {items.map((show) => (
-          // TODO: handle error
-          <li
-            key={show.imdbID}
-            className="autocomplete-item"
-            onClick={(e) => {
-              select(show.imdbID);
-              e.currentTarget.parentElement.remove();
-            }}
-            onMouseEnter={(e) => e.currentTarget.classList.add('hover')}
-            onMouseLeave={(e) => e.currentTarget.classList.remove('hover')}
-          >
-            <div className="autocomplete-item-wrapper">
-              <img
-                src={show.Poster}
-                alt={`${show.Title} poster`}
-                className="autocomplete-poster"
-              />
-              <div className="autocomplete-info">
-                <h4 className="autocomplete-title">{show.Title}</h4>
-                <p className="autocomplete-year">{show.Year}</p>
-              </div>
-            </div>
-          </li>
-        ))}
+        {items &&
+          items.map((show) => {
+            if (show.startYear === 2000) {
+              console.log(show);
+            }
+            // TODO: handle error
+            return (
+              <li
+                key={show.tconst}
+                className="autocomplete-item"
+                onClick={(e) => {
+                  select(show.tconst);
+                  e.currentTarget.parentElement.remove();
+                }}
+                onMouseEnter={(e) => e.currentTarget.classList.add('hover')}
+                onMouseLeave={(e) => e.currentTarget.classList.remove('hover')}
+              >
+                <div className="autocomplete-item-wrapper">
+                  <img
+                    src={show.poster}
+                    alt={`${show.primaryTitle} poster`}
+                    className="autocomplete-poster"
+                  />
+
+                  <div className="autocomplete-info">
+                    <h4 className="autocomplete-title">{show.primaryTitle}</h4>
+                    <p className="autocomplete-year">
+                      {show.startYear}-{show.endYear}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

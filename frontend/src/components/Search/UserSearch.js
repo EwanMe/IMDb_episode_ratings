@@ -8,23 +8,32 @@ const UserSearch = ({ getShow, setNoResults }) => {
   const [search, setSearch] = useState('');
 
   const [error, setError] = useState(null);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
+    // Fetch data from local api and poster from OMDb
     if (search.length > 0) {
-      fetch(`https://www.omdbapi.com/?s=${search}&type=series&apikey=590114db`)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            if (result.Response !== 'False') {
-              setItems(result.Search);
-            }
-          },
-          (error) => {
-            setError(error);
-          }
-        );
+      fetch(`http://localhost:8000/search?q=${search}`)
+        .then((res) =>
+          res.json().then((result) => {
+            Promise.all(
+              result.map((item) => {
+                return fetch(
+                  `https://www.omdbapi.com/?i=${item.tconst}&apikey=590114db`
+                ).then((res) => res.json());
+              })
+            ).then((omdbRes) => {
+              setItems(() =>
+                result.map((item, i) => ({
+                  ...item,
+                  poster: omdbRes[i].Poster,
+                }))
+              );
+            });
+          })
+        )
+        .catch((error) => setError(error));
     }
   }, [search]);
 
@@ -35,7 +44,7 @@ const UserSearch = ({ getShow, setNoResults }) => {
 
   useEffect(() => {
     let searchBar = document.querySelector('.search-bar');
-    if (showAutocomplete && items[0]) {
+    if (showAutocomplete && items) {
       searchBar.classList.add('active-search');
     } else {
       searchBar.classList.remove('active-search');
@@ -51,8 +60,8 @@ const UserSearch = ({ getShow, setNoResults }) => {
       <SearchIcon className="search-icon" />
       <SearchBar
         autoSelect={() => {
-          if (items[0]) {
-            setShowQuery(items[0].imdbID); // Default value is first item.
+          if (items) {
+            setShowQuery(items[0].tconst); // Default value is first item.
             setShowAutocomplete(false);
           } else {
             setNoResults(search);
@@ -63,7 +72,7 @@ const UserSearch = ({ getShow, setNoResults }) => {
           setShowAutocomplete(true);
         }}
       />
-      {showAutocomplete && items[0] && (
+      {showAutocomplete && items && (
         <Autocomplete
           items={items}
           error={error}
