@@ -317,7 +317,7 @@ def get_free_search(request):
     query = request.GET.get("q")
     shows = (
         Title.objects.select_related("rating")
-        .filter(primaryTitle__icontains=query)
+        .filter(primaryTitle__icontains=query, titleType="tvSeries")
         .order_by(F("rating__numVotes").desc(nulls_last=True))
     )[:10]
     serializer = TitleRatingSerializer(shows, many=True)
