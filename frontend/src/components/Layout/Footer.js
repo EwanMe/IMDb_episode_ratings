@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer>
-      <p>Powered by OMDb ©{new Date().getFullYear()} Hallvard Jensen</p>
+      <p>©{new Date().getFullYear()} Hallvard Jensen</p>
     </footer>
   );
 };

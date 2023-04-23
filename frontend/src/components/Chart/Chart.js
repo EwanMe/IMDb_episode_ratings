@@ -32,8 +32,10 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
   }, [isDynamic, chart]);
 
   const createDataPlot = (data) => {
-    const ratings = data.Episodes.map((ep) => ep.imdbRating);
-    ratings.unshift('Season ' + data.Season); // Data array starts with label name
+    const ratings = data.map((ep) =>
+      ep.averageRating ? ep.averageRating : null
+    );
+    ratings.unshift('Season ' + data[0].seasonNumber); // Data array starts with label name
     return ratings;
   };
 
@@ -50,7 +52,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
             hide: true, // Avoids showing all lines on load.
             onclick: (d) => {
               const imdbID =
-                data[d.id.split(' ').slice(-1) - 1].Episodes[d.index].imdbID;
+                data[d.id.split(' ').slice(-1) - 1][d.index].tconst;
               window.open(`https://www.imdb.com/title/${imdbID}`);
             },
           },
@@ -91,11 +93,11 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           tooltip: {
             order: (t1, t2) => t1.id > t2.id,
             format: {
-              title: () => data[0].Title,
+              title: () => data[0].primaryTitle,
               name: (name, ratio, id, index) =>
                 name +
                 ': ' +
-                data[id.split(' ').slice(-1) - 1].Episodes[index].Title,
+                data[id.split(' ').slice(-1) - 1][index].primaryTitle,
             },
             // contents: (d, defaultTitleFormat, defaultValueFormat, color) => {
             //   return `

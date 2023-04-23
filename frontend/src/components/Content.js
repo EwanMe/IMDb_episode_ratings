@@ -35,19 +35,12 @@ const Content = () => {
           .catch((error) => setError(error));
 
         let queryData = [];
-        for (let i = 1; i <= totalSeasons; ++i) {
-          await fetch(
-            `https://www.omdbapi.com/?i=${show}&season=${i}&type=series&apikey=590114db`
-          )
-            .then((res) => res.json())
-            .then((result) => {
-              if (result.Response === 'False') {
-                return;
-              }
-              queryData.push(result);
-            })
-            .catch((error) => setError(error));
-        }
+        await fetch(`http://localhost:8000/ratings/${show}/`)
+          .then((res) => res.json())
+          .then((result) => {
+            queryData = result.seasons;
+          })
+          .catch((error) => setError(error));
 
         setData(queryData);
         createSeasonSelector(totalSeasons);
