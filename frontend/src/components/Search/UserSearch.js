@@ -3,6 +3,8 @@ import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
+const CONFIG = require('../../api-config.json');
+
 const UserSearch = ({ getShow, setNoResults }) => {
   const [showQuery, setShowQuery] = useState('');
   const [search, setSearch] = useState('');
@@ -15,12 +17,17 @@ const UserSearch = ({ getShow, setNoResults }) => {
     const getResults = async () => {
       // Fetch data from backend api and append poster link from OMDb api
       try {
-        const result = await fetch(`http://localhost:8000/search?q=${search}`);
+        const result = await fetch(
+          new URL(`search?q=${search}`, CONFIG.backend.url)
+        );
         const json = await result.json();
 
         const items = json.map(async (item) => {
           const ombdRes = await fetch(
-            `https://www.omdbapi.com/?i=${item.tconst}&apikey=590114db`
+            new URL(
+              `?i=${item.tconst}&apikey=${CONFIG.omdbApi.apikey}`,
+              CONFIG.omdbApi.url
+            )
           );
           const omdbJson = await ombdRes.json();
 
