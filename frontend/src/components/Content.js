@@ -19,13 +19,18 @@ const Content = () => {
   const [comparison, setComparison] = useState(false);
   const [dynamicChart, setDynamicChart] = useState(false);
 
+  const CONFIG = require('../api-config.json');
+
   useEffect(() => {
     async function fetchData() {
       // Fetch show data from OMDb API.
-      if (show && show.length > 0 && !Number.isInteger(show)) {
+      if (show?.length > 0 && !Number.isInteger(show)) {
         let totalSeasons = 1;
         await fetch(
-          `https://www.omdbapi.com/?i=${show}&type=series&apikey=590114db`
+          new URL(
+            `?i=${show}&type=series&apikey=${CONFIG.omdbApi.apikey}`,
+            CONFIG.omdbApi.url
+          )
         )
           .then((res) => res.json())
           .then((result) => {
@@ -35,7 +40,7 @@ const Content = () => {
           .catch((error) => setError(error));
 
         let queryData = [];
-        await fetch(`http://localhost:8000/ratings/${show}/`)
+        await fetch(new URL(`ratings/${show}/`, CONFIG.backend.url))
           .then((res) => res.json())
           .then((result) => {
             queryData = result.seasons;
