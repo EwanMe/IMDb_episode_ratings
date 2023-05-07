@@ -12,29 +12,36 @@ const UserSearch = ({ getShow, setNoResults }) => {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
-    // Fetch data from local api and poster from OMDb
-    if (search.length > 0) {
-      fetch(`http://localhost:8000/search?q=${search}`)
-        .then((res) =>
-          res.json().then((result) => {
-            Promise.all(
-              result.map((item) => {
-                return fetch(
-                  `https://www.omdbapi.com/?i=${item.tconst}&apikey=590114db`
-                ).then((res) => res.json());
-              })
-            ).then((omdbRes) => {
-              setItems(() =>
-                result.map((item, i) => ({
-                  ...item,
-                  poster: omdbRes[i].Poster,
-                }))
-              );
-            });
-          })
-        )
-        .catch((error) => setError(error));
-    }
+    const getResults = async () => {
+      // Fetch data from backend api and append poster link from OMDb api
+      try {
+        const result = await fetch(`http://localhost:8000/search?q=${search}`);
+        const json = await result.json();
+
+        const items = json.map(async (item) => {
+          const ombdRes = await fetch(
+            `https://www.omdbapi.com/?i=${item.tconst}&apikey=590114db`
+          );
+          const omdbJson = await ombdRes.json();
+
+          return {
+            ...item,
+            poster: omdbJson.Poster,
+          };
+        });
+
+        return Promise.all(items);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    const fetchData = async () => {
+      if (search.length > 0) {
+        setItems(await getResults());
+      }
+    };
+    fetchData();
   }, [search]);
 
   useEffect(() => {

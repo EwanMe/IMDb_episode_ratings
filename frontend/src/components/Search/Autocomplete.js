@@ -17,9 +17,6 @@ const Autocomplete = ({ items, exists, select }) => {
       <ul className="autocomplete-list">
         {items &&
           items.map((show) => {
-            if (show.startYear === 2000) {
-              console.log(show);
-            }
             // TODO: handle error
             return (
               <li
