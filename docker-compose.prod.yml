@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  frontend:
+    restart: always
+    build:
+      dockerfile: Dockerfile.prod
+  backend:
+    restart: always
+  db:
+    restart: always
+
+networks:
+  default:
+    name: ${PROXY_NETWORK}
+    external: True

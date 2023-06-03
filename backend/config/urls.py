@@ -10,7 +10,7 @@ urlpatterns = [
         views.populate_database,
         name="download_single",
     ),
-    path("download/", views.populate_database, name="download_all"),
+    path("download/", views.populate_database),
     path("show/<str:id>/", views.get_show),
     path("ratings/<str:id>/", views.get_episode_ratings),
     path("search/", views.get_free_search),
