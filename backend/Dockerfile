@@ -8,3 +8,11 @@ WORKDIR /django
 
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+
+RUN mkdir -pv /var/log/gunicorn/
+RUN mkdir -pv /var/run/gunicorn/
+
+COPY . .
+EXPOSE 8000
+
+ENTRYPOINT [ "gunicorn", "-c", "config/gunicorn/prod.py" ]

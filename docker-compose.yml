@@ -2,49 +2,53 @@ version: '3.9'
 
 services:
   frontend:
+    container_name: tvratings-frontend
+    hostname: tvratings-frontend
     build:
       context: ./frontend
-    ports:
-      - "3000:3000"
-    container_name: frontend
-    stdin_open: true
-    volumes:
-       - ./frontend:/frontend
-       - /frontend/node_modules
+    deploy:
+      resources:
+        limits:
+          memory: ${REACT_MEM_LIMIT}
+          cpus: "${REACT_CPU_LIMIT}"
   backend:
-    container_name: backend
-    build: ./backend/
-    mem_limit: ${DJANGO_MEM_LIMIT}
-    ports:
-      - 8000:8000
+    container_name: tvratings-api
+    hostname: tvratings-api
+    build:
+      context: ./backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     volumes:
-      - ./backend:/django:rw
       - /tmp/imdb_datasets:/tmp/imdb_datasets:rw
-    working_dir: /django
-    command: [
-        './wait-for-it.sh',
-        'db:5432',
-        '--',
-        'bash',
-        '-c',
-        'python3 manage.py makemigrations;
-        python3 manage.py migrate;
-        python manage.py runserver 0.0.0.0:8000',
-      ]
+    deploy:
+      resources:
+        limits:
+          memory: ${DJANGO_MEM_LIMIT}
+          cpus: "${DJANGO_CPU_LIMIT}"
   db:
-    container_name: postgres
+    container_name: tvratings-db
     image: postgres:latest
-    shm_size: 1g
     env_file:
       - .env
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    expose:
+      - ${POSTGRES_PORT}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "imdb"]
+      interval: 3s
+      timeout: 30s
+      retries: 5
+      start_period: 60s
+    shm_size: ${POSTGRES_SHM_SIZE}
+    deploy:
+      resources:
+        limits:
+          memory: ${POSTGRES_MEM_LIMIT}
+          cpus: "${POSTGRES_CPU_LIMIT}"
 
 volumes:
   postgres_data:

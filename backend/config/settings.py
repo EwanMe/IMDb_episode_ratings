@@ -1,26 +1,17 @@
 from pathlib import Path
 from os import environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = environ.get("DJANGO_SALT")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-r9rrlylg=r@0vw!jt5df4f_@9d$*6z+i!l%%h(c03*se8a=!89"
-)
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["tvapi.lumberia.org"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://tvratings.lumberia.org",
+    "https://tvratings.lumberia.org",
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     "imdb.apps.ImdbConfig",
     "rest_framework",
@@ -64,10 +55,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+CORS_ALLOW_ALL_ORIGINS = True
 
 DATABASES = {
     "default": {
@@ -79,14 +67,6 @@ DATABASES = {
         "PORT": environ.get("POSTGRES_PORT"),
     }
 }
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,9 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "CET"
@@ -115,13 +92,5 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = "static/"
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
