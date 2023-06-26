@@ -7,6 +7,10 @@ services:
       dockerfile: Dockerfile.prod
   backend:
     restart: always
+    build:
+      dockerfile: Dockerfile.prod
+    environment:
+      - DEBUG=False
   db:
     restart: always
 

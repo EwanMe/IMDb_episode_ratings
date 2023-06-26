@@ -5,7 +5,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = environ.get("DJANGO_SALT")
 
-ALLOWED_HOSTS = ["tvapi.lumberia.org"]
+DEBUG = environ.get("DEBUG") == "True"
+
+ALLOWED_HOSTS = [
+    "tvapi.lumberia.org",
+    "localhost",
+]
 CSRF_TRUSTED_ORIGINS = [
     "http://tvratings.lumberia.org",
     "https://tvratings.lumberia.org",
@@ -21,7 +26,6 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
 ]
 
 MIDDLEWARE = [

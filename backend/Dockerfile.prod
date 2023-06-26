@@ -15,4 +15,4 @@ RUN mkdir -pv /var/run/gunicorn/
 COPY . .
 EXPOSE 8000
 
-ENTRYPOINT [ "gunicorn", "-c", "config/gunicorn/prod.py" ]
+CMD [ "gunicorn", "-c", "config/gunicorn/prod.py" ]
