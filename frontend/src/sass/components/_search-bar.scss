@@ -1,10 +1,15 @@
 @use 'sass:math';
 
 .search-wrapper {
-  width: 40%;
+  width: 70%;
   height: $searchBarHeight;
   min-width: 500px;
+  max-width: 650px;
   position: absolute;
+
+  @media (max-width: $widthBreakpoint1) {
+    min-width: 100px;
+  }
 }
 
 .search-icon {
