@@ -3,7 +3,13 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 2em 0;
-  width: 80%;
+  width: 70%;
+  max-width: 650px;
+
+  @media (max-width: $widthBreakpoint1) {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .chart-control-wrapper {
@@ -13,37 +19,70 @@
   align-self: flex-end;
   margin: 0;
   font-size: 0.9em;
+
+  @media (max-width: $widthBreakpoint1) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 }
 
 .show-card-wrapper {
-  max-height: 300px;
   padding: 0 0.9em;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  display: grid;
+  grid-template-areas:
+    'poster header'
+    'poster body';
+  grid-template-columns: 1fr 3fr;
+  column-gap: 1em;
+
+  @media (max-width: $widthBreakpoint1) {
+    grid-template-areas:
+      'header header'
+      'poster body';
+  }
+
+  @media (max-width: $widthBreakpoint2) {
+    grid-template-areas:
+      'poster header'
+      'body body';
+  }
 }
 
 .show-poster {
+  grid-area: poster;
   max-width: 200px;
   max-height: 200px;
-}
 
-.show-info {
-  margin: 0 2em;
-  width: 75%;
-  height: 100%;
+  @media (min-width: $widthBreakpoint2) {
+    margin-top: 1em;
+  }
+
+  @media (max-width: $widthBreakpoint2) {
+    max-width: 75px;
+  }
 }
 
 .show-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  grid-area: header;
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    'title rating'
+    'year year';
+  grid-template-columns: 9fr 1fr;
+
+  @media (max-width: $widthBreakpoint2) {
+    grid-auto-rows: min-content;
+    margin: auto 0;
+  }
 }
 
 .global-rating-box {
-  min-height: 45px;
-  min-width: 45px;
-  margin-left: 20px;
+  grid-area: rating;
+  height: 45px;
+  width: 45px;
+  margin: auto 0 auto 0.5em;
   color: $backgroundColor;
   border-radius: 10%;
   font-size: 13pt;
@@ -70,11 +109,19 @@
 
 .show-title {
   margin: 0;
+
+  @media (max-width: $widthBreakpoint2) {
+    font-size: 1.6rem;
+  }
+}
+
+.show-body {
+  grid-area: body;
 }
 
 .chip {
   display: inline-block;
-  margin-right: 0.5em;
+  margin: 0 0.5em 0.5em 0;
   padding: 0.1em 0.7em;
   border: 2px solid $textColor;
   border-radius: 20px;
@@ -83,19 +130,22 @@
 }
 
 .show-year {
+  grid-area: year;
   margin: 0;
 }
 
 .plot-summary {
+  grid-area: plot;
   margin: 0.7em 0;
   font-size: 0.8em;
 }
 
-.show-roles-wrapper {
+.show-role-wrapper {
+  grid-area: roles;
   margin-bottom: 0.7em;
 }
 
-.show-roles {
+.show-role {
   margin: 0;
   font-size: 0.7em;
 

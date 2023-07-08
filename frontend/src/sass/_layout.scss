@@ -21,6 +21,10 @@ main {
   flex: auto;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: $widthBreakpoint1) {
+    width: 90%;
+  }
 }
 
 header {
@@ -31,6 +35,7 @@ header {
   flex: none;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
 
   & a {
     color: inherit;
