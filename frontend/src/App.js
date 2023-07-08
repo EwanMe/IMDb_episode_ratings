@@ -1,7 +1,7 @@
 import Header from './components/Layout/Header';
 import Content from './components/Content';
 import Footer from './components/Layout/Footer';
-import './sass/app.scss';
+import './scss/app.scss';
 
 const App = () => {
   return (
