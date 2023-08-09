@@ -8,6 +8,8 @@
 @import 'components/search-bar';
 @import 'components/chart';
 @import 'components/no-results';
+@import 'components/loader';
+@import 'components/search-results';
 
 .content-wrapper {
   width: 100%;
@@ -15,4 +17,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  & > * {
+    margin: 3em 0;
+  }
 }

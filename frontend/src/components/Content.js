@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
-import UserSearch from './Search/UserSearch';
 import Chart from './Chart/Chart';
 import ShowCard from './ShowInfo/ShowCard';
 import ChartControls from './Chart/ChartControls';
 
-const Content = () => {
-  const [show, setShow] = useState('');
-  const [noResults, setNoResults] = useState('');
-
+export default function Content({ show }) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
@@ -167,52 +163,37 @@ const Content = () => {
   };
 
   return (
-    <main role="main">
-      <UserSearch
-        getShow={(value) => setShow(value)}
-        setNoResults={(searchQuery) => setNoResults(searchQuery)}
-      />
-      <div className="content-wrapper">
-        {!show && noResults && (
-          <div className="no-results-wrapper">
-            <h2 className="no-results-message">
-              No results found for: "{noResults}" &#x1F914;
-            </h2>
-          </div>
-        )}
-        {isLoaded && (
-          <div className="info-wrapper">
-            <ShowCard
-              title={showInfo.Title}
-              poster={showInfo.Poster}
-              year={showInfo.Year}
-              rating={showInfo.imdbRating}
-              genre={showInfo.Genre}
-              actors={showInfo.Actors}
-              writers={showInfo.Writer}
-              plot={showInfo.Plot}
-            />
-            <ChartControls
-              setComparison={(e) => setComparison(e)}
-              setDynamicChart={(e) => setDynamicChart(e)}
-            />
-          </div>
-        )}
-        {show && (
-          <div className="global-chart-wrapper">
-            <ul className="season-select">{seasonSelector}</ul>
-            <Chart
-              isLoaded={isLoaded}
-              data={data}
-              error={error}
-              selection={selection}
-              isDynamic={dynamicChart}
-            />
-          </div>
-        )}
-      </div>
-    </main>
+    <>
+      {isLoaded && (
+        <div className="info-wrapper">
+          <ShowCard
+            title={showInfo.Title}
+            poster={showInfo.Poster}
+            year={showInfo.Year}
+            rating={showInfo.imdbRating}
+            genre={showInfo.Genre}
+            actors={showInfo.Actors}
+            writers={showInfo.Writer}
+            plot={showInfo.Plot}
+          />
+          <ChartControls
+            setComparison={(e) => setComparison(e)}
+            setDynamicChart={(e) => setDynamicChart(e)}
+          />
+        </div>
+      )}
+      {show && (
+        <div className="global-chart-wrapper">
+          <ul className="season-select">{seasonSelector}</ul>
+          <Chart
+            isLoaded={isLoaded}
+            data={data}
+            error={error}
+            selection={selection}
+            isDynamic={dynamicChart}
+          />
+        </div>
+      )}
+    </>
   );
-};
-
-export default Content;
+}
