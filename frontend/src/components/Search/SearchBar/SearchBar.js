@@ -7,7 +7,7 @@ const SearchBar = ({ update, autoSelect }) => {
       placeholder="Search for TV series"
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          autoSelect(); // Automatically selects most relevant show.
+          autoSelect(e.target.value); // Automatically selects most relevant show.
           e.target.value = '';
         }
       }}
