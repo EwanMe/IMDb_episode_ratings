@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Content from './components/Content';
 import Footer from './components/Layout/Footer';
@@ -10,13 +9,6 @@ import './scss/app.scss';
 
 const App = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState([]);
-
-  useEffect(() => {
-    if (searchQuery?.length > 0) {
-      setSearchParams({ q: searchQuery });
-    }
-  }, [searchQuery]);
 
   function getContent() {
     if (searchParams.has('title')) {
@@ -41,7 +33,7 @@ const App = () => {
       <main role="main">
         <UserSearch
           getShow={(value) => console.log('noop')}
-          getQuery={(query) => setSearchQuery(query)}
+          getQuery={(query) => setSearchParams({ q: query })}
         />
         <div className="content-wrapper">{getContent()}</div>
       </main>

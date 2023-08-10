@@ -1,7 +1,6 @@
 import SearchBar from './SearchBar';
 import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
 
 const CONFIG = require('/app/src/api-config.json');
 
@@ -90,7 +89,6 @@ const UserSearch = ({ getShow, getQuery, setNoResults }) => {
 
   return (
     <div className="search-wrapper">
-      <SearchIcon className="search-icon" />
       <SearchBar
         autoSelect={(value) => {
           getQuery(value);
