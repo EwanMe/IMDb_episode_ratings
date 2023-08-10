@@ -21,6 +21,16 @@
   opacity: 0.5;
 }
 
+.cancel-search-icon {
+  @include button-unstyle;
+
+  position: absolute;
+  margin-top: math.div($searchBarHeight - $searchIconSize, 2);
+  right: 25px;
+  color: $textColor;
+  opacity: 0.5;
+}
+
 .search-bar {
   padding-left: 57px;
   padding-right: 25px;
