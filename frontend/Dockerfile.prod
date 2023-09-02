@@ -1,11 +1,11 @@
-FROM node:16 as prod
+FROM node:16.20.2-buster as prod
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:alpine3.18-slim
 WORKDIR /usr/share/nginx/html
 COPY --from=prod /app/build .
 EXPOSE 80
