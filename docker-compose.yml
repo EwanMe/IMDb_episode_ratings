@@ -30,7 +30,7 @@ services:
           cpus: '${DJANGO_CPU_LIMIT}'
   db:
     container_name: tvratings-db
-    image: postgres:latest
+    image: postgres:15.4-bookworm
     env_file:
       - .env
     expose:
