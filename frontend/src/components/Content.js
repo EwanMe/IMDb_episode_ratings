@@ -14,6 +14,7 @@ export default function Content({ show }) {
 
   const [comparison, setComparison] = useState(false);
   const [dynamicChart, setDynamicChart] = useState(false);
+  const [allEpisodes, setAllEpisodes] = useState(false);
 
   const CONFIG = require('../api-config.json');
 
@@ -83,14 +84,27 @@ export default function Content({ show }) {
   useEffect(() => {
     createSeasonSelector();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comparison]);
+  }, [comparison, allEpisodes]);
+
+  useEffect(() => {
+    setComparison(false);
+    const comparisonSwitch = document.getElementById('compare-switch');
+    if (comparisonSwitch) {
+      comparisonSwitch.checked = false;
+      comparisonSwitch.disabled = !comparisonSwitch.disabled;
+      comparisonSwitch.classList.toggle('switch-disabled');
+    }
+  }, [allEpisodes]);
 
   useEffect(() => {
     if (comparison) {
       selection.forEach((item) => {
         const i = item.split(' ').slice(-1);
-        document.querySelector(`#season-${i}-checkbox`).checked = true;
-        document.getElementById(`season-${i}-tab`).classList.add('selected');
+        const checkbox = document.querySelector(`#season-${i}-checkbox`);
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+        document.getElementById(`season-${i}-tab`)?.classList.add('selected');
       });
     } else {
       // Remove styling from selected tabs
@@ -98,35 +112,40 @@ export default function Content({ show }) {
         (elem) => elem.classList.remove('selected')
       );
 
-      setSelection((selection) => [selection[0]]);
+      setSelection((selection) =>
+        allEpisodes ? ['Season 1'] : [selection[0]]
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seasonSelector]);
 
-  const createSeasonSelector = (numSeasons) => {
-    if (numSeasons === undefined) numSeasons = showInfo.totalSeasons;
-
+  const createSeasonSelector = (numSeasons = showInfo.totalSeasons) => {
     let newArray = [];
-    for (let i = 1; i <= numSeasons; ++i) {
-      if (comparison) {
-        newArray.push(createCheckbox(i));
-      } else {
-        newArray.push(createButton(i));
+    if (allEpisodes) {
+      newArray.push(createButton(1, 'All', { disabled: true }));
+    } else {
+      for (let i = 1; i <= numSeasons; ++i) {
+        if (comparison) {
+          newArray.push(createCheckbox(i));
+        } else {
+          newArray.push(createButton(i));
+        }
       }
     }
 
     setSeasonSelector(newArray);
   };
 
-  const createButton = (i) => {
+  const createButton = (i, name = null, props = null) => {
     return (
       <li key={i} className={`season-${i}-tab`}>
         <button
+          {...props}
           name={`Season ${i}`}
           id={`season-${i}-button`}
           onClick={() => setSelection([`Season ${i}`])}
         >
-          {i}
+          {name ? name : i}
         </button>
       </li>
     );
@@ -162,6 +181,13 @@ export default function Content({ show }) {
     }
   };
 
+  function getChartData() {
+    if (allEpisodes) {
+      return [data.reduce((accum, season) => accum.concat(season), [])];
+    }
+    return data;
+  }
+
   return (
     <>
       {isLoaded && (
@@ -179,6 +205,7 @@ export default function Content({ show }) {
           <ChartControls
             setComparison={(e) => setComparison(e)}
             setDynamicChart={(e) => setDynamicChart(e)}
+            setAllEpisodes={() => setAllEpisodes(!allEpisodes)}
           />
         </div>
       )}
@@ -187,10 +214,11 @@ export default function Content({ show }) {
           <ul className="season-select">{seasonSelector}</ul>
           <Chart
             isLoaded={isLoaded}
-            data={data}
+            data={getChartData()}
             error={error}
             selection={selection}
             isDynamic={dynamicChart}
+            allEpisodes={allEpisodes}
           />
         </div>
       )}

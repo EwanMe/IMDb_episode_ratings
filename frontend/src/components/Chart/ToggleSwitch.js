@@ -1,4 +1,4 @@
-const ToggleSwitch = ({ label, name, toggle }) => {
+const ToggleSwitch = ({ id, label, name, toggle }) => {
   return (
     <div className="switch-wrapper">
       {label && (
@@ -10,6 +10,7 @@ const ToggleSwitch = ({ label, name, toggle }) => {
         <input
           type="checkbox"
           className="switch-checkbox"
+          id={id}
           name={name}
           onChange={(e) => toggle(e)}
         />
