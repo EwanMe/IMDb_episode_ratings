@@ -1,26 +1,19 @@
 .switch-wrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
   font-size: 0.9em;
-  margin-top: 1em;
+  height: 4.6em;
 
-  @media (max-width: 1200px) {
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: $widthBreakpoint1) {
-    justify-content: center;
-    width: 10em;
+  @media (max-width: 384px) {
+    min-height: 80px;
   }
 }
 
 .switch-label {
-  justify-self: flex-start;
-  margin-right: 10px;
-
-  @media (max-width: $widthBreakpoint1) {
-    margin-right: 0;
-  }
+  margin: 0 1em;
+  text-align: center;
 }
 
 .switch {
@@ -28,14 +21,20 @@
   display: inline-block;
   min-width: 60px;
   height: 34px;
+  margin: 0 1em;
 
-  & input {
+  & .switch-checkbox {
     opacity: 0;
     width: 0;
     height: 0;
 
     &:checked + .switch-slider {
       background-color: $headerTextColor;
+    }
+
+    &.switch-disabled + .switch-slider {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
 
     &:focus + .switch-slider {
@@ -74,4 +73,8 @@
     transition: 0.4s;
     border-radius: 50%;
   }
+}
+
+.switch-disabled {
+  cursor: default;
 }

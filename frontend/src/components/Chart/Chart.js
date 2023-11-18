@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import c3 from 'c3';
 import 'c3/c3.css';
 
-const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
+const Chart = ({
+  allEpisodes,
+  data,
+  isLoaded,
+  selection,
+  isDynamic,
+  error,
+}) => {
   const [chart, setChart] = useState(null);
 
   useEffect(() => {
@@ -35,7 +42,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
     const ratings = data.map((ep) =>
       ep.averageRating ? ep.averageRating : null
     );
-    ratings.unshift('Season ' + data[0].seasonNumber); // Data array starts with label name
+    ratings.unshift('Season ' + data[0]?.seasonNumber); // Data array starts with label name
     return ratings;
   };
 
@@ -92,41 +99,41 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
           },
           tooltip: {
             order: (t1, t2) => t1.id > t2.id,
-            format: {
-              title: () => data[0].primaryTitle,
-              name: (name, ratio, id, index) =>
-                name +
-                ': ' +
-                data[id.split(' ').slice(-1) - 1][index].primaryTitle,
-            },
-            // contents: (d, defaultTitleFormat, defaultValueFormat, color) => {
-            //   return `
-            //   <table class="c3-tooltip">
-            //     <tr>
-            //       <th colspan="2">${defaultTitleFormat('Episode ')}</th>
-            //     </tr>
-            //     ${d.map((item) => {
-            //       return `
-            //       <tr class="c3-tooltip-name--${item.id}">
-            //         <td>
-            //           <span style="background-color:${color(item.id)}"></span>
-            //           ${
-            //             data[item.id.split(' ').slice(-1) - 1].Episodes[
-            //               item.index
-            //             ].Title
-            //           }
-            //         </td>
-            //         <td class="value">
-            //           ${defaultValueFormat(
-            //             data[item.id.split(' ').slice(-1) - 1].Episodes[
-            //               item.index
-            //             ].imdbRating
-            //           )}
-            //         </td>
-            //       </tr>`;
-            //     })}
-            //   </table>`;
-            // },
+            contents: (currentData, _, __, color) =>
+              `<table class="c3-tooltip">
+              <tr>
+              ${
+                currentData.length === 1
+                  ? `<th colspan='2'>Season ${
+                      data[currentData[0].id.split(' ').slice(-1) - 1][
+                        currentData[0].index
+                      ].seasonNumber
+                    }</th>`
+                  : `<th colspan="2">Seasons: ${currentData
+                      .map((item) => {
+                        return item.id.split(' ').at(-1);
+                      })
+                      .join(', ')}</th>`
+              }
+              </tr>
+              ${currentData
+                .map((item) => {
+                  const episode =
+                    data[item.id.split(' ').slice(-1) - 1][item.index];
+                  console.log(item.id);
+                  return `
+                  <tr class="c3-tooltip-name--${item.id.replace(' ', '-')}">
+                    <td class="name">
+                      <span style="background-color:${color(item.id)}"></span>
+                      Episode ${episode.episodeNumber}: ${episode.primaryTitle}
+                    </td>
+                    <td class="value">
+                      ${episode.averageRating}
+                    </td>
+                  </tr>`;
+                })
+                .join('')}
+              </table>`,
           },
           legend: {
             item: {
@@ -134,6 +141,7 @@ const Chart = ({ data, isLoaded, selection, isDynamic, error }) => {
               onmouseout: () => null,
               onclick: () => null,
             },
+            hide: allEpisodes ? true : false,
           },
         })
       );

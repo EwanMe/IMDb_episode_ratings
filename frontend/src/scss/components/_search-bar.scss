@@ -37,6 +37,14 @@ input[type='search']::-webkit-search-results-decoration {
   right: 25px;
   color: $textColor;
   opacity: 0.5;
+
+  &:hover {
+    color: darkred;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
 }
 
 .search-bar {
