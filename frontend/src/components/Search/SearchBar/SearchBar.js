@@ -7,7 +7,11 @@ const SearchBar = ({ update, autoSelect }) => {
       <SearchIcon className="search-icon" />
       <button className="cancel-search-icon">
         <MdCancel
-          onClick={() => (document.querySelector('.search-bar').value = '')}
+          onClick={() => {
+            const searchBar = document.querySelector('.search-bar');
+            searchBar.value = '';
+            searchBar.focus();
+          }}
         />
       </button>
       <input
@@ -15,6 +19,7 @@ const SearchBar = ({ update, autoSelect }) => {
         type="search"
         name="search-bar"
         placeholder="Search for TV series"
+        autoFocus
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             autoSelect(e.target.value); // Automatically selects most relevant show.
