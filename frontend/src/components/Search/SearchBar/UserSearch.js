@@ -1,17 +1,17 @@
 import SearchBar from './SearchBar';
-import Autocomplete from './Autocomplete';
+// import Autocomplete from './Autocomplete';
 import { useEffect, useState } from 'react';
 
-const CONFIG = require('/app/src/api-config.json');
+// const CONFIG = require('/app/src/api-config.json');
 
 const UserSearch = ({ getShow, getQuery, setNoResults }) => {
   const [showQuery, setShowQuery] = useState('');
   const [search, setSearch] = useState('');
 
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [items, setItems] = useState(null);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   // TODO: Decide if autocomplete should continue to talk to database
   /*useEffect(() => {
@@ -71,13 +71,13 @@ const UserSearch = ({ getShow, getQuery, setNoResults }) => {
     }
   }, [showAutocomplete, items]);
 
-  useEffect(() => {
-    if ((search.length > 0 && !items) || !(showAutocomplete && items)) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-  }, [showAutocomplete, items, search]);
+  // useEffect(() => {
+  //   if ((search.length > 0 && !items) || !(showAutocomplete && items)) {
+  //     setIsLoading(true);
+  //   } else {
+  //     setIsLoading(false);
+  //   }
+  // }, [showAutocomplete, items, search]);
 
   useEffect(() => {
     setItems(null);
