@@ -120,7 +120,6 @@ const Chart = ({
                 .map((item) => {
                   const episode =
                     data[item.id.split(' ').slice(-1) - 1][item.index];
-                  console.log(item.id);
                   return `
                   <tr class="c3-tooltip-name--${item.id.replace(' ', '-')}">
                     <td class="name">
