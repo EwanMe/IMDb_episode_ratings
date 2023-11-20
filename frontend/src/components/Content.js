@@ -57,9 +57,13 @@ export default function Content({ show }) {
     // Default season selection.
     setSelection(['Season 1']);
 
+    const selectorStyle = document.querySelector('.season-select').style;
     if (isLoaded) {
       setComparison(false);
       document.querySelector('.switch-checkbox').checked = false;
+      selectorStyle.visibility = 'visible';
+    } else {
+      selectorStyle.visibility = 'hidden';
     }
   }, [data, isLoaded]);
 

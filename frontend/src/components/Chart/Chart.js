@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import c3 from 'c3';
 import 'c3/c3.css';
+import Loader from '../Layout/Loader';
 
 const Chart = ({
   allEpisodes,
@@ -151,7 +152,7 @@ const Chart = ({
   if (error) {
     return <p>Error: {error.message}</p>;
   } else if (!isLoaded || !data) {
-    return <p>Loading...</p>;
+    return <Loader size="large" />;
   } else {
     return (
       <div className="chart-wrapper">{isLoaded && <div id="chart"></div>}</div>
