@@ -5,4 +5,4 @@ You can see how the ratings evolve with the seasons, compare seasons against eac
 
 This application uses IMDb's own [non-commercial datasets](https://developer.imdb.com/non-commercial-datasets/) together with the [OMDb API](http://www.omdbapi.com/).
 
-Find the website at tvratings.lumberia.org.
+Find the website at https://tvratings.lumberia.org.
